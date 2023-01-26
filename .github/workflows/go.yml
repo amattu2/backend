@@ -19,8 +19,8 @@ jobs:
 
       - name: Compile Application
         run: go build -v ./...
-        working-directory: ./src
+        working-directory: ./
 
       - name: Run Tests
         run: go test -v ./...
-        working-directory: ./src
+        working-directory: ./

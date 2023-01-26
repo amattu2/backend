@@ -11,7 +11,7 @@ git clone https://github.com/placeholder-app/backend
 ```
 
 ```bash
-cd backend/src
+cd backend/
 ```
 
 ```bash

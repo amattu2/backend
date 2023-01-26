@@ -2,7 +2,7 @@
 .idea/
 __pycache__/
 node_modules/
-src/vendor/
+vendor/
 
 # Specific Files
 thunderEnvironment.json
