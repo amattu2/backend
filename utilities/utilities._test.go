@@ -23,16 +23,20 @@ package utilities
 
 import "testing"
 
-func TestSplitSize(t *testing.T) {
-	t.Log("Test 1")
+func TestSplitSize1(t *testing.T) {
 	w, h := SplitSize("100x100")
 	if (w != 100) || (h != 100) {
 		t.Error("Did not correctly split 100x100")
 	}
+}
 
-	t.Log("Test 2")
-	w, h = SplitSize("100x100x5")
+func TestSplitSize2(t *testing.T) {
+	w, h := SplitSize("100x100x5")
 	if (w != 100) || (h != 100) {
 		t.Error("Did not correctly split 100x100x5")
 	}
+}
+
+func TestGenerateImage(t *testing.T) {
+	// TODO
 }
