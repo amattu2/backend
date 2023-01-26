@@ -1,0 +1,24 @@
+[
+  {
+    "_id": "7694981b-9fc4-4980-a4c5-12b59d01112d",
+    "colName": "placeholder-app",
+    "created": "2023-01-26T14:22:38.256Z",
+    "sortNum": 10000,
+    "folders": [
+      {
+        "_id": "148e0dd4-cf8d-4a3b-9e36-5862cf3f3061",
+        "name": "Utilities",
+        "containerId": "",
+        "created": "2023-01-26T17:47:50.505Z",
+        "sortNum": 10000
+      },
+      {
+        "_id": "9209516e-8e85-4584-88e7-3fe73fb2eebe",
+        "name": "API",
+        "containerId": "",
+        "created": "2023-01-26T17:52:36.945Z",
+        "sortNum": 20000
+      }
+    ]
+  }
+]

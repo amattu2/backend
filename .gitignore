@@ -1,7 +1,8 @@
 # Folders
+.idea/
 __pycache__/
 node_modules/
-vendor/
+src/vendor/
 
 # Specific Files
 thunderEnvironment.json
