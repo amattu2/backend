@@ -46,7 +46,7 @@ func GetImage(c *gin.Context) {
 		text = fmt.Sprintf("%d x %d", width, height)
 	}
 
-	img := &shared.CustomImage{
+	img := shared.CustomImage{
 		Width:      width,
 		Height:     height,
 		Text:       text,

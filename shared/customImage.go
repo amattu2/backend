@@ -78,12 +78,11 @@ func (i *CustomImage) Build() (data []byte, err error) {
 //
 // author: James-Elicx
 func (i CustomImage) parseColor(toParse string, fallback color.RGBA) color.RGBA {
-	var c color.RGBA = fallback
 	if txt, _ := hex.DecodeString(toParse); len(txt) == 3 {
-		c = color.RGBA{txt[0], txt[1], txt[2], 255}
+		return color.RGBA{txt[0], txt[1], txt[2], 255}
 	}
 
-	return c
+	return fallback
 }
 
 // Convert CustomImage BgColor to a color.RGBA
