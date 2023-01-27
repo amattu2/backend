@@ -21,8 +21,33 @@
 
 package shared
 
+import (
+	"encoding/hex"
+	"image/color"
+)
+
 type CustomImage struct {
 	Width, Height           int
 	BgColor, TxtColor, Text string
 	Data                    []byte
+}
+
+// parse a color, or default to the fallback color
+func (i CustomImage) parseColor(toParse string, fallback color.RGBA) color.RGBA {
+	var c color.RGBA = fallback
+	if txt, _ := hex.DecodeString(toParse); len(txt) == 3 {
+		c = color.RGBA{txt[0], txt[1], txt[2], 255}
+	}
+
+	return c
+}
+
+// get the background color
+func (i CustomImage) GetBgColor() color.RGBA {
+	return i.parseColor(i.BgColor, color.RGBA{171, 171, 171, 255})
+}
+
+// get the text color
+func (i CustomImage) GetTxtColor() color.RGBA {
+	return i.parseColor(i.TxtColor, color.RGBA{255, 255, 255, 255})
 }

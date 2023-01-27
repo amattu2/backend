@@ -23,32 +23,33 @@ package shared
 
 import (
 	"bytes"
-	"encoding/hex"
 	"fmt"
 	"image"
-	"image/color"
 	"image/draw"
 	"image/png"
-	"log"
+	"placeholder-app/backend/fonts"
 	"strconv"
 	"strings"
 
-	"github.com/golang/freetype/truetype"
-	"github.com/google/gxui/gxfont"
 	"golang.org/x/image/font"
 	"golang.org/x/image/math/fixed"
 )
 
 // RoundTo rounds a number to the nearest multiple of a positive number
+//
 // x: non-negative number to round
+//
 // to: non-negative number to round by
+//
 // Example: RoundTo(102, 5) = 100
 func RoundTo(x int, to int) int {
 	return (x + 2) / to * to
 }
 
 // SplitSize splits a string into two integers
+//
 // size: string to split, delimited by "x"
+//
 // Example: SplitSize("100x100") = 100, 100
 func SplitSize(size string) (int, int) {
 	a := strings.Split(size, "x")
@@ -58,44 +59,32 @@ func SplitSize(size string) (int, int) {
 	return RoundTo(w, 5), RoundTo(h, 5)
 }
 
+// BuildImage builds an image from the CustomImage struct
+//
+// i: CustomImage struct
+//
+// Example: BuildImage(&CustomImage{Width: 100, Height: 100, Text: "Hello, World!"})
 func (i *CustomImage) Build() (err error) {
 	img := image.NewRGBA(image.Rect(0, 0, i.Width, i.Height))
 
-	if bg, _ := hex.DecodeString(i.BgColor); len(bg) == 3 {
-		draw.Draw(img, img.Bounds(), &image.Uniform{color.RGBA{bg[0], bg[1], bg[2], 255}}, image.Point{}, draw.Src)
-	}
-	// TODO - default bg color
+	text := fonts.CalSansSemibold.GetTextData(i.Text, 32)
 
-	var c color.Color = color.RGBA{255, 255, 255, 255}
-	if txt, _ := hex.DecodeString(i.TxtColor); len(txt) == 3 {
-		c = color.RGBA{txt[0], txt[1], txt[2], 255}
-	}
-
-	var face font.Face
-	if f, _ := truetype.Parse(gxfont.Default); f != nil {
-		face = truetype.NewFace(f, &truetype.Options{
-			Size:    32, // TODO - make this dynamic
-			DPI:     72,
-			Hinting: font.HintingFull,
-		})
-	} else {
-		return fmt.Errorf("failed to parse font")
-	}
-
-	d := &font.Drawer{
+	// Add content to image
+	draw.Draw(img, img.Bounds(), &image.Uniform{i.GetBgColor()}, image.Point{}, draw.Src)
+	drawer := &font.Drawer{
 		Dst:  img,
-		Src:  image.NewUniform(c),
-		Face: face,
+		Src:  &image.Uniform{i.GetTxtColor()},
+		Face: text.Face,
+		Dot:  fixed.P((i.Width-text.Width)/2, (i.Height/2)+(text.Height/2)),
 	}
-	d.Dot = fixed.P(10, 10+int(face.Metrics().Ascent.Ceil()))
-	d.DrawString(i.Text)
-	// TODO - center text in image
+	drawer.DrawString(i.Text)
 
 	var buf bytes.Buffer
 	if err := png.Encode(&buf, img); err != nil {
-		log.Fatal(err)
+		return fmt.Errorf("failed to encode image: %v", err)
+	} else {
+		i.Data = buf.Bytes()
 	}
 
-	i.Data = buf.Bytes()
 	return nil
 }
