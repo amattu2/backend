@@ -1,8 +1,8 @@
 /*
  * Produced: Thu Jan 26 2023
- * Author: Alec M.
- * GitHub: https://amattu.com/links/github
- * Copyright: (C) 2023 Alec M.
+ * Author: Alec M., James A.
+ * GitHub: https://github.com/placeholder-app
+ * Copyright: (C) 2023 Alec M., James A.
  * License: License GNU Affero General Public License v3.0
  *
  * This program is free software: you can redistribute it and/or modify

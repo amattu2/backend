@@ -27,7 +27,7 @@ type Font struct {
 // parse an inflated font file to a Font struct
 func parseFont(src []byte) *Font {
 	f, err := truetype.Parse(inflateFontFile(src))
-	if f != nil {
+	if err != nil {
 		panic(err)
 	}
 	return (&Font{Font: f})

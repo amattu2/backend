@@ -1,8 +1,8 @@
 /*
  * Produced: Thu Jan 26 2023
- * Author: Alec M.
- * GitHub: https://amattu.com/links/github
- * Copyright: (C) 2023 Alec M.
+ * Author: Alec M., James A.
+ * GitHub: https://github.com/placeholder-app
+ * Copyright: (C) 2023 Alec M., James A.
  * License: License GNU Affero General Public License v3.0
  *
  * This program is free software: you can redistribute it and/or modify
@@ -24,15 +24,39 @@ package shared
 import (
 	"encoding/hex"
 	"image/color"
+	"strconv"
+	"strings"
 )
 
-type CustomImage struct {
-	Width, Height           int
-	BgColor, TxtColor, Text string
-	Data                    []byte
+// RoundTo rounds a number to the nearest multiple of a positive number
+//
+// x: non-negative number to round
+//
+// to: non-negative number to round by
+//
+// Example: RoundTo(102, 5) = 100
+func RoundTo(x int, to int) int {
+	return (x + 2) / to * to
 }
 
-// parse a color, or default to the fallback color
+// SplitSize splits a string into two integers
+//
+// size: string to split, delimited by "x"
+//
+// Example: SplitSize("100x100") = 100, 100
+func SplitSize(size string) (int, int) {
+	a := strings.Split(size, "x")
+	w, _ := strconv.Atoi(a[0])
+	h, _ := strconv.Atoi(a[1])
+
+	return RoundTo(w, 5), RoundTo(h, 5)
+}
+
+// Parse a color from a hex string
+//
+// toParse: hex string to parse
+//
+// author: James-Elicx
 func (i CustomImage) parseColor(toParse string, fallback color.RGBA) color.RGBA {
 	var c color.RGBA = fallback
 	if txt, _ := hex.DecodeString(toParse); len(txt) == 3 {
@@ -42,12 +66,20 @@ func (i CustomImage) parseColor(toParse string, fallback color.RGBA) color.RGBA 
 	return c
 }
 
-// get the background color
+// Convert CustomImage BgColor to a color.RGBA
+//
+// Example: GetBgColor("ffffff") = color.RGBA{255, 255, 255, 255}
+//
+// author: James-Elicx
 func (i CustomImage) GetBgColor() color.RGBA {
 	return i.parseColor(i.BgColor, color.RGBA{171, 171, 171, 255})
 }
 
-// get the text color
+// Convert CustomImage TxtColor to a color.RGBA
+//
+// Example: GetTxtColor("ffffff") = color.RGBA{255, 255, 255, 255}
+//
+// author: James-Elicx
 func (i CustomImage) GetTxtColor() color.RGBA {
 	return i.parseColor(i.TxtColor, color.RGBA{255, 255, 255, 255})
 }

@@ -19,16 +19,40 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package routes
+package controllers
 
 import (
-	"placeholder-app/backend/controllers"
+	"net/http/httptest"
+	"testing"
 
 	"github.com/gin-gonic/gin"
 )
 
-func RegisterImageRoutes(r *gin.Engine) {
-	r.GET("/image/:size", controllers.GetImage)
-	r.GET("/image/:size/:bgColor", controllers.GetImage)
-	r.GET("/image/:size/:bgColor/:txtColor", controllers.GetImage)
+func TestUtilityController1(t *testing.T) {
+	gin.SetMode(gin.TestMode)
+
+	recorder := httptest.NewRecorder()
+	context, _ := gin.CreateTestContext(recorder)
+
+	GetPing(context)
+
+	if recorder.Code != 200 {
+		t.Errorf("Expected 301, got %d", recorder.Code)
+	}
+	if recorder.Body.String() != "pong" {
+		t.Errorf("Expected pong, got %s", recorder.Body.String())
+	}
+}
+
+func TestUtilityController2(t *testing.T) {
+	gin.SetMode(gin.TestMode)
+
+	recorder := httptest.NewRecorder()
+	context, _ := gin.CreateTestContext(recorder)
+
+	GetStatus(context)
+
+	if recorder.Code != 200 {
+		t.Errorf("Expected 301, got %d", recorder.Code)
+	}
 }
