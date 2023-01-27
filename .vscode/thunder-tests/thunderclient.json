@@ -100,11 +100,11 @@
     "colId": "7694981b-9fc4-4980-a4c5-12b59d01112d",
     "containerId": "9209516e-8e85-4584-88e7-3fe73fb2eebe",
     "name": "image",
-    "url": "{route}/image/{size}/{bgColor}/{txtColor}?text=hello",
+    "url": "{route}/image/{size}/{bgColor}/{txtColor}?text=hello&font=ABC",
     "method": "GET",
     "sortNum": 10000,
     "created": "2023-01-26T17:53:36.396Z",
-    "modified": "2023-01-27T14:29:53.588Z",
+    "modified": "2023-01-27T21:28:39.266Z",
     "headers": [],
     "params": [
       {
@@ -130,6 +130,11 @@
       {
         "name": "text",
         "value": "hello",
+        "isPath": false
+      },
+      {
+        "name": "font",
+        "value": "ABC",
         "isPath": false
       }
     ],

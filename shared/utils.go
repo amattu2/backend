@@ -22,8 +22,6 @@
 package shared
 
 import (
-	"encoding/hex"
-	"image/color"
 	"strconv"
 	"strings"
 )
@@ -50,36 +48,4 @@ func SplitSize(size string) (int, int) {
 	h, _ := strconv.Atoi(a[1])
 
 	return RoundTo(w, 5), RoundTo(h, 5)
-}
-
-// Parse a color from a hex string
-//
-// toParse: hex string to parse
-//
-// author: James-Elicx
-func (i CustomImage) parseColor(toParse string, fallback color.RGBA) color.RGBA {
-	var c color.RGBA = fallback
-	if txt, _ := hex.DecodeString(toParse); len(txt) == 3 {
-		c = color.RGBA{txt[0], txt[1], txt[2], 255}
-	}
-
-	return c
-}
-
-// Convert CustomImage BgColor to a color.RGBA
-//
-// Example: GetBgColor("ffffff") = color.RGBA{255, 255, 255, 255}
-//
-// author: James-Elicx
-func (i CustomImage) GetBgColor() color.RGBA {
-	return i.parseColor(i.BgColor, color.RGBA{171, 171, 171, 255})
-}
-
-// Convert CustomImage TxtColor to a color.RGBA
-//
-// Example: GetTxtColor("ffffff") = color.RGBA{255, 255, 255, 255}
-//
-// author: James-Elicx
-func (i CustomImage) GetTxtColor() color.RGBA {
-	return i.parseColor(i.TxtColor, color.RGBA{255, 255, 255, 255})
 }

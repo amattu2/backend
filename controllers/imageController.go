@@ -47,18 +47,19 @@ func GetImage(c *gin.Context) {
 	}
 
 	img := &shared.CustomImage{
-		Width:    width,
-		Height:   height,
-		Text:     text,
-		BgColor:  c.Param("bgColor"),
-		TxtColor: c.Param("txtColor"),
+		Width:      width,
+		Height:     height,
+		Text:       text,
+		FontFamily: c.Query("font"),
+		BgColor:    c.Param("bgColor"),
+		TxtColor:   c.Param("txtColor"),
 	}
 
-	if err := img.Build(); err != nil {
+	if data, err := img.Build(); err != nil {
 		c.AbortWithStatus(500)
 	} else {
 		c.Header("Cache-Control", "public, max-age=86400")
 		c.Header("Content-Disposition", "inline; filename=image.png")
-		c.Data(200, "image/png", img.Data)
+		c.Data(200, "image/png", data)
 	}
 }
