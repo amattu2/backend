@@ -23,10 +23,10 @@ package controllers
 
 import "github.com/gin-gonic/gin"
 
-func GetPing(c *gin.Context) {
-	c.String(200, "pong")
-}
-
 func GetStatus(c *gin.Context) {
 	c.JSON(200, gin.H{"status": "ok"})
+}
+
+func GetFonts(c *gin.Context) {
+	c.JSON(200, gin.H{"status": "ok", "fonts": []string{"a", "b", "c"}})
 }

@@ -31,6 +31,6 @@ func InitRouter(engine *gin.Engine) {
 	engine.Use(middlewares.CORSMiddleware())
 
 	RegisterPublicRoutes(engine)
-	RegisterImageRoutes(engine)
 	RegisterUtilityRoutes(engine)
+	RegisterImageRoutes(engine)
 }

@@ -34,13 +34,10 @@ func TestUtilityController1(t *testing.T) {
 	recorder := httptest.NewRecorder()
 	context, _ := gin.CreateTestContext(recorder)
 
-	GetPing(context)
+	GetFonts(context)
 
 	if recorder.Code != 200 {
-		t.Errorf("Expected 301, got %d", recorder.Code)
-	}
-	if recorder.Body.String() != "pong" {
-		t.Errorf("Expected pong, got %s", recorder.Body.String())
+		t.Errorf("Expected 200, got %d", recorder.Code)
 	}
 }
 

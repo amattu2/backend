@@ -28,6 +28,6 @@ import (
 )
 
 func RegisterUtilityRoutes(r *gin.Engine) {
-	r.GET("/ping", controllers.GetPing)
 	r.GET("/status", controllers.GetStatus)
+	r.GET("/fonts", controllers.GetFonts)
 }
