@@ -16,11 +16,14 @@ cd backend/
 
 ```bash
 go install
-```
-
-```bash
 go run main.go
 ```
+
+## Documentation
+
+OpenAPI (Swagger) documentation included in [./.vscode/openapi.yml](.vscode/openapi.yml)
+
+ThunderClient requests included in [./.vscode/thunder-tests](./.vscode/thunder-tests)
 
 # Requirements & Dependencies
 

@@ -24,9 +24,9 @@ package controllers
 import "github.com/gin-gonic/gin"
 
 func GetStatus(c *gin.Context) {
-	c.JSON(200, gin.H{"status": "ok"})
+	c.JSON(200, gin.H{"status": "OK", "notice": ""})
 }
 
 func GetFonts(c *gin.Context) {
-	c.JSON(200, gin.H{"status": "ok", "fonts": []string{"a", "b", "c"}})
+	c.JSON(200, gin.H{"status": "OK", "fonts": []string{"a", "b", "c"}})
 }
