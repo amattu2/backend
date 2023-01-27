@@ -3,6 +3,8 @@
 __pycache__/
 node_modules/
 vendor/
+documentation/.openapi-generator/
+documentation/.openapi-generator-ignore
 
 # Specific Files
 thunderEnvironment.json

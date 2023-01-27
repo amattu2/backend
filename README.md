@@ -21,7 +21,13 @@ go run main.go
 
 ## Documentation
 
-OpenAPI (Swagger) documentation included in [./.vscode/openapi.yml](.vscode/openapi.yml)
+See [/documentation](./documentation/index.html)
+
+Raw OpenAPI (Swagger) documentation included in [./.vscode/openapi.yml](.vscode/openapi.yml)
+
+```bash
+openapi-generator-cli generate --skip-validate-spec -i ./.vscode/openapi.yml -g html2 -o ./documentation
+```
 
 ThunderClient requests included in [./.vscode/thunder-tests](./.vscode/thunder-tests)
 
