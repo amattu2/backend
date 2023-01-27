@@ -103,5 +103,102 @@
         "value": "image/png"
       }
     ]
+  },
+  {
+    "_id": "c3f15238-d557-44c6-8522-70b0de569b56",
+    "colId": "7694981b-9fc4-4980-a4c5-12b59d01112d",
+    "containerId": "f3e5b1f5-e5b9-48c3-99c1-ebcc14a90ef5",
+    "name": "1 - Valid Request",
+    "url": "{route}/image/{size}/{bgColor}/{txtColor}?text=test",
+    "method": "GET",
+    "sortNum": 10000,
+    "created": "2023-01-27T01:03:22.554Z",
+    "modified": "2023-01-27T01:05:49.988Z",
+    "headers": [],
+    "params": [
+      {
+        "name": "route",
+        "value": "http://localhost:8080",
+        "isPath": true
+      },
+      {
+        "name": "size",
+        "value": "410x315",
+        "isPath": true
+      },
+      {
+        "name": "bgColor",
+        "value": "000000",
+        "isPath": true
+      },
+      {
+        "name": "txtColor",
+        "value": "FFFFFF",
+        "isPath": true
+      },
+      {
+        "name": "text",
+        "value": "test",
+        "isPath": false
+      }
+    ],
+    "tests": [
+      {
+        "type": "res-code",
+        "custom": "",
+        "action": "equal",
+        "value": "200"
+      },
+      {
+        "type": "Content-Length",
+        "custom": "",
+        "action": ">",
+        "value": "0"
+      },
+      {
+        "type": "custom-header",
+        "custom": "Cache-Control",
+        "action": ">",
+        "value": "999"
+      },
+      {
+        "type": "custom-header",
+        "custom": "Content-Type",
+        "action": "equal",
+        "value": "image/png"
+      }
+    ]
+  },
+  {
+    "_id": "bf709f45-ccde-49f8-97bc-9c51e7d233c3",
+    "colId": "7694981b-9fc4-4980-a4c5-12b59d01112d",
+    "containerId": "f3e5b1f5-e5b9-48c3-99c1-ebcc14a90ef5",
+    "name": "2 - Bad Size",
+    "url": "{route}/image/{size}/{bgColor}/{txtColor}",
+    "method": "GET",
+    "sortNum": 20000,
+    "created": "2023-01-27T01:04:03.315Z",
+    "modified": "2023-01-27T01:04:46.946Z",
+    "headers": [],
+    "params": [
+      {
+        "name": "route",
+        "value": "http://localhost:8080",
+        "isPath": true
+      },
+      {
+        "name": "size",
+        "value": "10x315",
+        "isPath": true
+      }
+    ],
+    "tests": [
+      {
+        "type": "res-code",
+        "custom": "",
+        "action": "equal",
+        "value": "400"
+      }
+    ]
   }
 ]

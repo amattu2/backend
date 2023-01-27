@@ -23,28 +23,20 @@ package controllers
 
 import (
 	"fmt"
-	"placeholder-app/backend/utilities"
+	"placeholder-app/backend/shared"
 	"strings"
 
 	"github.com/gin-gonic/gin"
 )
 
 func GetImage(c *gin.Context) {
-	if c.Params == nil {
-		c.AbortWithStatus(400)
-		return
-	}
-	if c.Param("size") == "" || !strings.Contains(c.Param("size"), "x") {
+	if c.Params == nil || !strings.Contains(c.Param("size"), "x") {
 		c.AbortWithStatus(400)
 		return
 	}
 
-	var width, height int = utilities.SplitSize(c.Param("size"))
-	if width == 0 || height == 0 {
-		c.AbortWithStatus(400)
-		return
-	}
-	if width > 4000 || height > 4000 {
+	var width, height int = shared.SplitSize(c.Param("size"))
+	if width < 30 || width > 4000 || height < 30 || height > 4000 {
 		c.AbortWithStatus(400)
 		return
 	}
@@ -54,12 +46,19 @@ func GetImage(c *gin.Context) {
 		text = fmt.Sprintf("%d x %d", width, height)
 	}
 
-	bgColor := c.Param("bgColor")
-	txtColor := c.Param("txtColor")
+	img := &shared.CustomImage{
+		Width:    width,
+		Height:   height,
+		Text:     text,
+		BgColor:  c.Param("bgColor"),
+		TxtColor: c.Param("txtColor"),
+	}
 
-	imageBuffer := utilities.GenerateImage(width, height, bgColor, txtColor, text)
-
-	c.Header("Cache-Control", "public, max-age=86400")
-	c.Header("Content-Disposition", "inline; filename=image.png")
-	c.Data(200, "image/png", imageBuffer)
+	if err := img.Build(); err != nil {
+		c.AbortWithStatus(500)
+	} else {
+		c.Header("Cache-Control", "public, max-age=86400")
+		c.Header("Content-Disposition", "inline; filename=image.png")
+		c.Data(200, "image/png", img.Data)
+	}
 }

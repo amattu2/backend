@@ -19,11 +19,12 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package utilities
+package shared
 
 import (
 	"bytes"
 	"encoding/hex"
+	"fmt"
 	"image"
 	"image/color"
 	"image/draw"
@@ -46,16 +47,16 @@ func SplitSize(size string) (int, int) {
 	return w, h
 }
 
-func GenerateImage(width, height int, bgColor string, txtColor string, text string) []byte {
-	img := image.NewRGBA(image.Rect(0, 0, width, height))
+func (i *CustomImage) Build() (err error) {
+	img := image.NewRGBA(image.Rect(0, 0, i.Width, i.Height))
 
-	if bg, _ := hex.DecodeString(bgColor); len(bg) == 3 {
+	if bg, _ := hex.DecodeString(i.BgColor); len(bg) == 3 {
 		draw.Draw(img, img.Bounds(), &image.Uniform{color.RGBA{bg[0], bg[1], bg[2], 255}}, image.Point{}, draw.Src)
 	}
 	// TODO - default bg color
 
 	var c color.Color = color.RGBA{255, 255, 255, 255}
-	if txt, _ := hex.DecodeString(txtColor); len(txt) == 3 {
+	if txt, _ := hex.DecodeString(i.TxtColor); len(txt) == 3 {
 		c = color.RGBA{txt[0], txt[1], txt[2], 255}
 	}
 
@@ -67,7 +68,7 @@ func GenerateImage(width, height int, bgColor string, txtColor string, text stri
 			Hinting: font.HintingFull,
 		})
 	} else {
-		log.Fatal("Failed to parse font")
+		return fmt.Errorf("failed to parse font")
 	}
 
 	d := &font.Drawer{
@@ -76,7 +77,7 @@ func GenerateImage(width, height int, bgColor string, txtColor string, text stri
 		Face: face,
 	}
 	d.Dot = fixed.P(10, 10+int(face.Metrics().Ascent.Ceil()))
-	d.DrawString(text)
+	d.DrawString(i.Text)
 	// TODO - center text in image
 
 	var buf bytes.Buffer
@@ -84,5 +85,6 @@ func GenerateImage(width, height int, bgColor string, txtColor string, text stri
 		log.Fatal(err)
 	}
 
-	return buf.Bytes()
+	i.Data = buf.Bytes()
+	return nil
 }

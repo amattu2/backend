@@ -18,7 +18,21 @@
         "containerId": "",
         "created": "2023-01-26T17:52:36.945Z",
         "sortNum": 20000
+      },
+      {
+        "_id": "f3e5b1f5-e5b9-48c3-99c1-ebcc14a90ef5",
+        "name": "Tests",
+        "containerId": "",
+        "created": "2023-01-27T01:03:22.554Z",
+        "sortNum": 30000
       }
-    ]
+    ],
+    "settings": {
+      "runOptions": {
+        "delay": 0,
+        "iterations": 8,
+        "dataFilePath": ""
+      }
+    }
   }
 ]
