@@ -23,6 +23,7 @@ package controllers
 
 import (
 	"net/http/httptest"
+	"strings"
 	"testing"
 
 	"github.com/gin-gonic/gin"
@@ -39,12 +40,6 @@ func TestImageController1(t *testing.T) {
 	if recorder.Code != 400 {
 		t.Errorf("Expected 400, got %d", recorder.Code)
 	}
-
-	context.Params = gin.Params{{Key: "size", Value: "100x100"}}
-	GetImage(context)
-	if recorder.Code != 400 {
-		t.Errorf("Expected 400, got %d", recorder.Code)
-	}
 }
 
 func TestImageController2(t *testing.T) {
@@ -52,12 +47,6 @@ func TestImageController2(t *testing.T) {
 
 	recorder := httptest.NewRecorder()
 	context, _ := gin.CreateTestContext(recorder)
-
-	GetImage(context)
-
-	if recorder.Code != 400 {
-		t.Errorf("Expected 400, got %d", recorder.Code)
-	}
 
 	context.Params = gin.Params{{Key: "size", Value: "fakesize"}}
 	GetImage(context)
@@ -72,12 +61,6 @@ func TestImageController3(t *testing.T) {
 	recorder := httptest.NewRecorder()
 	context, _ := gin.CreateTestContext(recorder)
 
-	GetImage(context)
-
-	if recorder.Code != 400 {
-		t.Errorf("Expected 400, got %d", recorder.Code)
-	}
-
 	context.Params = gin.Params{{Key: "size", Value: "0x0"}}
 	GetImage(context)
 	if recorder.Code != 400 {
@@ -90,12 +73,6 @@ func TestImageController4(t *testing.T) {
 
 	recorder := httptest.NewRecorder()
 	context, _ := gin.CreateTestContext(recorder)
-
-	GetImage(context)
-
-	if recorder.Code != 400 {
-		t.Errorf("Expected 400, got %d", recorder.Code)
-	}
 
 	context.Params = gin.Params{{Key: "size", Value: "-450x500"}}
 	GetImage(context)
@@ -110,15 +87,26 @@ func TestImageController5(t *testing.T) {
 	recorder := httptest.NewRecorder()
 	context, _ := gin.CreateTestContext(recorder)
 
-	GetImage(context)
-
-	if recorder.Code != 400 {
-		t.Errorf("Expected 400, got %d", recorder.Code)
-	}
-
 	context.Params = gin.Params{{Key: "size", Value: "5555x240"}}
 	GetImage(context)
 	if recorder.Code != 400 {
 		t.Errorf("Expected 400, got %d", recorder.Code)
+	}
+}
+
+func TestImageController6(t *testing.T) {
+	gin.SetMode(gin.TestMode)
+
+	recorder := httptest.NewRecorder()
+	context, _ := gin.CreateTestContext(recorder)
+
+	context.Params = gin.Params{
+		{Key: "size", Value: "555x240"},
+		{Key: "text", Value: strings.Repeat("a", 101)},
+	}
+
+	GetImage(context)
+	if recorder.Code != 200 {
+		t.Errorf("Expected 200, got %d", recorder.Code)
 	}
 }
