@@ -176,9 +176,9 @@
     "name": "2 - Bad Size",
     "url": "{route}/image/{size}/{bgColor}/{txtColor}",
     "method": "GET",
-    "sortNum": 20000,
+    "sortNum": 12500,
     "created": "2023-01-27T01:04:03.315Z",
-    "modified": "2023-01-27T01:04:46.946Z",
+    "modified": "2023-01-27T13:05:02.710Z",
     "headers": [],
     "params": [
       {
@@ -198,6 +198,56 @@
         "custom": "",
         "action": "equal",
         "value": "400"
+      }
+    ]
+  },
+  {
+    "_id": "de941e69-f8b2-4bcf-92c8-284ff96de2d3",
+    "colId": "7694981b-9fc4-4980-a4c5-12b59d01112d",
+    "containerId": "f3e5b1f5-e5b9-48c3-99c1-ebcc14a90ef5",
+    "name": "3 - Valid with Rounding",
+    "url": "{route}/image/{size}/{bgColor}/{txtColor}",
+    "method": "GET",
+    "sortNum": 15000,
+    "created": "2023-01-27T13:04:57.941Z",
+    "modified": "2023-01-27T13:05:51.144Z",
+    "headers": [],
+    "params": [
+      {
+        "name": "route",
+        "value": "http://localhost:8080",
+        "isPath": true
+      },
+      {
+        "name": "size",
+        "value": "402x399",
+        "isPath": true
+      }
+    ],
+    "tests": [
+      {
+        "type": "res-code",
+        "custom": "",
+        "action": "equal",
+        "value": "200"
+      },
+      {
+        "type": "Content-Length",
+        "custom": "",
+        "action": ">",
+        "value": "0"
+      },
+      {
+        "type": "custom-header",
+        "custom": "Cache-Control",
+        "action": ">",
+        "value": "999"
+      },
+      {
+        "type": "custom-header",
+        "custom": "Content-Type",
+        "action": "equal",
+        "value": "image/png"
       }
     ]
   }

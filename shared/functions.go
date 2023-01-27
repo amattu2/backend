@@ -39,12 +39,23 @@ import (
 	"golang.org/x/image/math/fixed"
 )
 
+// RoundTo rounds a number to the nearest multiple of a positive number
+// x: non-negative number to round
+// to: non-negative number to round by
+// Example: RoundTo(102, 5) = 100
+func RoundTo(x int, to int) int {
+	return (x + 2) / to * to
+}
+
+// SplitSize splits a string into two integers
+// size: string to split, delimited by "x"
+// Example: SplitSize("100x100") = 100, 100
 func SplitSize(size string) (int, int) {
 	a := strings.Split(size, "x")
 	w, _ := strconv.Atoi(a[0])
 	h, _ := strconv.Atoi(a[1])
 
-	return w, h
+	return RoundTo(w, 5), RoundTo(h, 5)
 }
 
 func (i *CustomImage) Build() (err error) {

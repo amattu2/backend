@@ -23,20 +23,58 @@ package shared
 
 import "testing"
 
+func TestRoundTo1(t *testing.T) {
+	r := RoundTo(100, 5)
+	if r != 100 {
+		t.Error("Did not leave 100 at 100")
+	}
+}
+
+func TestRoundTo2(t *testing.T) {
+	r := RoundTo(106, 10)
+	if r != 100 {
+		t.Error("Did not round 106 to 110")
+	}
+}
+
+func TestRoundTo3(t *testing.T) {
+	r := RoundTo(94, 10)
+	if r != 90 {
+		t.Error("Did not round 94 to 90")
+	}
+}
+
+func TestRoundTo4(t *testing.T) {
+	r := RoundTo(0, 10)
+	if r != 0 {
+		t.Error("Did not leave 0 as 0")
+	}
+}
+
 func TestSplitSize1(t *testing.T) {
 	w, h := SplitSize("100x100")
 	if (w != 100) || (h != 100) {
-		t.Error("Did not correctly split 100x100")
+		t.Error("Did not split 100x100 into 100x100")
 	}
 }
 
 func TestSplitSize2(t *testing.T) {
 	w, h := SplitSize("100x100x5")
 	if (w != 100) || (h != 100) {
-		t.Error("Did not correctly split 100x100x5")
+		t.Error("Did not split 100x100x5 into 100x100")
 	}
 }
 
-func TestGenerateImage(t *testing.T) {
-	// TODO
+func TestSplitSize3(t *testing.T) {
+	w, h := SplitSize("302x949")
+	if (w != 300) || (h != 950) {
+		t.Error("Did not split 302x949 into 300x950")
+	}
+}
+
+func TestSplitSize4(t *testing.T) {
+	w, h := SplitSize("500x")
+	if (w != 500) || (h != 0) {
+		t.Error("Did not split 500x nothing into 500x0")
+	}
 }
