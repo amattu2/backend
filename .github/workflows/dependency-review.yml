@@ -1,4 +1,4 @@
-name: "Dependency Review"
+name: Dependency Review
 
 on: [pull_request]
 
@@ -7,9 +7,13 @@ permissions:
 
 jobs:
   dependency-review:
+    if: ${{ github.repository_owner == 'placeholder-app' }}
     runs-on: ubuntu-latest
     steps:
+      # Clone repository
       - name: "Checkout Repository"
         uses: actions/checkout@v3
+
+      # Check dependencies
       - name: "Dependency Review"
         uses: actions/dependency-review-action@v2

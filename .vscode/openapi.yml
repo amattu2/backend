@@ -1,13 +1,17 @@
 openapi: "3.0.2"
 info:
-  title: placeholder.app API documentation
-  version: "1.0"
+  title: API documentation
+  description: The official source of placeholder.app API documentation.
+  version: "1.0.0"
 servers:
   - url: https://api.placeholder.app
+    description: Production API Server
   - url: http://localhost:8080
+    description: Local API Test Server
 paths:
   /fonts:
     get:
+      operationId: /fonts
       summary: List supported image fonts
       description: Returns a list of all supported placeholder image fonts usable. No parameters supported.
       responses:
@@ -17,15 +21,23 @@ paths:
             application/json:
               schema:
                 type: object
+                title: Result
                 properties:
                   status:
-                    type: string
-                    example: OK
+                    title: API Status Message
+                    type: object
+                    example: ok
                   fonts:
+                    title: Font Array
                     type: array
-                    example: ["Sans-Serif"]
+                    items:
+                      type: string
+                      title: Font Name
+                      example: abc
+
   /status:
     get:
+      operationId: /status
       summary: Output current service status
       description: Returns a JSON object with information pertaining to the current service status
       responses:
@@ -44,6 +56,7 @@ paths:
                     example: Update to backend API releasing on 2022-12-24.
   /image/{size}:
     get:
+      operationId: /image/{size}
       summary: Output a placeholder image
       description: Returns a placeholder image defined by the path parameters.
       parameters:
@@ -69,7 +82,7 @@ paths:
           required: false
           schema:
             type: string
-            example: Sans-Serif
+            example: CalSansSemiBold
             description: An optional query parameter containing the font-family to use during image generation. See /fonts
       responses:
         "200":
@@ -85,6 +98,7 @@ paths:
           description: An unknown server error occured, retry later.
   /image/{size}/{bgColor}:
     get:
+      operationId: /image/{size}/{bgColor}
       summary: Output a placeholder image
       description: Returns a placeholder image defined by the path parameters.
       parameters:
@@ -133,6 +147,7 @@ paths:
           description: An unknown server error occured, retry later.
   /image/{size}/{bgColor}/{txtColor}:
     get:
+      operationId: /image/{size}/{bgColor}/{txtColor}
       summary: Output a placeholder image
       description: Returns a placeholder image defined by the path parameters.
       parameters:
