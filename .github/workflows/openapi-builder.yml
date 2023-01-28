@@ -11,23 +11,34 @@ jobs:
     runs-on: ubuntu-latest
     if: ${{ github.repository_owner == 'placeholder-app' }}
     steps:
+      # Pull backend repository and place in ./backend
+      - name: Checkout backend
+        uses: actions/checkout@v3
+        with:
+          path: ./backend
+
+      # Pull current api-docs repository and place in ./api-docs
+      - name: Checkout api-docs
+        uses: actions/checkout@v3
+        with:
+          name: placeholder-app/api-docs
+          path: ./api-docs
+          token: ${{ secrets.API_TOKEN }}
+
+      # Use backend repository openapi.yml to generate docs
       - name: Generate OpenAPI Docs
         uses: openapi-generators/openapitools-generator-action@v1
         with:
           generator: html2
-          openapi-file: .vscode/openapi.yml
-          command-args: --skip-validate-spec -o ./documentation
+          openapi-file: ./backend/.vscode/openapi.yml
+          command-args: --skip-validate-spec -o ./api-docs/docs
 
-      - name: Push to Documentation Repo
-        uses: actions/checkout@v3
-        with:
-          name: placeholder-app/api-docs
-          ref: refs/heads/master
-          token: ${{ secrets.API_TOKEN }}
+      # Push changes to api-docs repository
+      - name: Push Updated Documentation
         run: |
-          cd ./documentation
+          cd ./api-docs
           git config --local user.name "github-actions[bot]"
           git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add .
           git commit -m "[bot] Documentation Update"
-          git push origin --force
+          git push origin master
