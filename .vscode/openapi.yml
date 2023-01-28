@@ -1,7 +1,7 @@
 openapi: "3.0.2"
 info:
   title: placeholder.app API documentation
-  version: "1.0"
+  version: "1.0.0"
 servers:
   - url: https://api.placeholder.app
   - url: http://localhost:8080
@@ -69,7 +69,7 @@ paths:
           required: false
           schema:
             type: string
-            example: Sans-Serif
+            example: CalSansSemiBold
             description: An optional query parameter containing the font-family to use during image generation. See /fonts
       responses:
         "200":
