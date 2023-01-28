@@ -21,7 +21,7 @@ jobs:
       - name: Checkout api-docs
         uses: actions/checkout@v3
         with:
-          name: placeholder-app/api-docs
+          repository: placeholder-app/api-docs
           path: ./api-docs
           token: ${{ secrets.API_TOKEN }}
 
