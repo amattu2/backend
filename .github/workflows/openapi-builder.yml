@@ -1,8 +1,12 @@
 name: OpenAPI Builder
 
-# Todo: Make this only for merges on main
 on:
+  push:
+    branches: ["master"]
+    paths:
+      - ".vscode/**"
   pull_request:
+    branches: ["master"]
     paths:
       - ".vscode/**"
 
@@ -31,7 +35,7 @@ jobs:
         with:
           generator: html2
           openapi-file: ./backend/.vscode/openapi.yml
-          command-args: --skip-validate-spec -o ./api-docs/docs
+          command-args: -o ./api-docs/docs
 
       # Push changes to api-docs repository
       - name: Push Updated Documentation
@@ -40,5 +44,5 @@ jobs:
           git config --local user.name "github-actions[bot]"
           git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add .
-          git commit -m "[bot] Documentation Update"
+          git commit -m "Documentation Update"
           git push origin main
