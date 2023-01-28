@@ -1,40 +1,32 @@
-# name: OpenAPI Builder
+name: OpenAPI Builder
 
-# on:
-#   push:
-#     branches: ["master"]
-#   pull_request:
-#     branches: ["master"]
+on:
+  push:
+    paths:
+      - ".vscode/**"
 
-# jobs:
-#   generate:
-#     runs-on: ubuntu-latest
-#     steps:
-#       - uses: actions/checkout@v3
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    if: ${{ github.repository_owner == 'placeholder-app' }}
+    steps:
+      - uses: actions/checkout@v3
 
-#       - name: Generate OpenAPI Docs
-#         uses: openapi-generators/openapitools-generator-action@v1
-#         with:
-#           generator: html2
-#           openapi-file: ./vscode/openapi.yml
-#           command-args: --skip-validate-spec -o ./documentation
+      - name: Generate OpenAPI Docs
+        uses: openapi-generators/openapitools-generator-action@v1
+        with:
+          generator: html2
+          openapi-file: ./vscode/openapi.yml
+          command-args: --skip-validate-spec -o ./documentation
 
-#       - name: Push to Documentation Repo
-#         uses: actions/checkout@v3
-#         with:
-#           repository: myorg/documentation
-#           path: documentation
-#           token: ${{secrets.PUSH_TOKEN}}
-#         run: |
-#           cp -RT package/dist/docs/ documentation/latest/
-#           cd documentation
-#           git config --local user.name "github-actions[bot]"
-#           git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
-#           git add -A
-#           git commit -m "Documentation update"
-#           git push https://$USERNAME:$REPO_KEY@github.com/myorg/documentation.git
-#         env:
-#           REPO_KEY: ${{secrets.PUSH_TOKEN}}
-#           USERNAME: github-actions[bot]
-
-# openapi-generator-cli generate --skip-validate-spec -i ./.vscode/openapi.yml -g html2 -o ./documentation
+      - name: Push to Documentation Repo
+        env:
+          USERNAME: ${{ secrets.API_USERNAME }}
+          TOKEN: ${{ secrets.API_TOKEN }}
+        run: |
+          cd ./documentation
+          git config --local user.name "github-actions[bot]"
+          git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add .
+          git commit -m "[bot] Documentation Update"
+          git push https://$USERNAME:$TOKEN@github.com/placeholder-app/api-docs.git
