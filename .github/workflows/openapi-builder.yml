@@ -1,9 +1,7 @@
 name: OpenAPI Builder
 
+# Todo: Make this only for merges on main
 on:
-  push:
-    paths:
-      - ".vscode/**"
   pull_request:
     paths:
       - ".vscode/**"
@@ -19,7 +17,7 @@ jobs:
         uses: openapi-generators/openapitools-generator-action@v1
         with:
           generator: html2
-          openapi-file: ./vscode/openapi.yml
+          openapi-file: .vscode/openapi.yml
           command-args: --skip-validate-spec -o ./documentation
 
       - name: Push to Documentation Repo
