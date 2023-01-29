@@ -50,13 +50,12 @@ type CustomImage struct {
 //
 // Example: BuildImage(&CustomImage{Width: 100, Height: 100, Text: "Hello, World!"})
 func (i *CustomImage) Build() (data []byte, err error) {
-	img := image.NewRGBA(image.Rect(0, 0, i.Width, i.Height))
+	// Build the image base
+	img := i.GenerateBase()
+
+	// Draw the text
 	fontface := fonts.CalSansSemiBold.GetFontFace(78, 32)
 	textData := fonts.CalSansSemiBold.GetTextData(fontface, i.Text)
-
-	draw.Draw(img, img.Bounds(), i.GetBorderUniform(), image.Point{}, draw.Src)
-	draw.Draw(img, i.GetBgRect(), i.GetBgUniform(), image.Point{}, draw.Src)
-
 	drawer := font.Drawer{
 		Dst:  img,
 		Src:  &image.Uniform{i.GetTxtColor()},
@@ -65,6 +64,7 @@ func (i *CustomImage) Build() (data []byte, err error) {
 	}
 	drawer.DrawString(i.Text)
 
+	// Encode the image
 	var buf bytes.Buffer
 	if err := png.Encode(&buf, img); err != nil {
 		return nil, fmt.Errorf("failed to encode image: %v", err)
@@ -113,27 +113,24 @@ func (i CustomImage) GetBorderColor() color.RGBA {
 	return i.parseColor(i.BorderColor, color.RGBA{171, 171, 171, 255})
 }
 
-// Convert CustomImage BorderColor to a image.Uniform
+// GenerateBase draws the base of the image including the background and border
 //
-// Example: GetBorderUniform("ffffff") = image.Uniform{color.RGBA{255, 255, 255, 255}}
+// img: image.RGBA to draw to
 //
 // author: amattu2
-func (i CustomImage) GetBorderUniform() *image.Uniform {
-	return image.NewUniform(i.GetBorderColor())
-}
+func (i CustomImage) GenerateBase() *image.RGBA {
+	// Create the image base
+	img := image.NewRGBA(image.Rect(0, 0, i.Width, i.Height))
 
-// GetBgRect returns the image.Rectangle for the background
-//
-// author: amattu2
-func (i CustomImage) GetBgRect() image.Rectangle {
-	return image.Rect(i.BorderWidth, i.BorderWidth, i.Width-i.BorderWidth, i.Height-i.BorderWidth)
-}
+	// Draw the border
+	if i.BorderWidth > 0 {
+		borderUniform := image.NewUniform(i.GetBorderColor())
+		draw.Draw(img, img.Bounds(), borderUniform, image.Point{}, draw.Src)
+	}
 
-// Convert CustomImage BgColor to a image.Uniform
-//
-// Example: GetBgUniform("ffffff") = image.Uniform{color.RGBA{255, 255, 255, 255}}
-//
-// author: amattu2
-func (i CustomImage) GetBgUniform() *image.Uniform {
-	return image.NewUniform(i.GetBgColor())
+	// Draw the background
+	backgroundRect := image.Rect(i.BorderWidth, i.BorderWidth, i.Width-i.BorderWidth, i.Height-i.BorderWidth)
+	draw.Draw(img, backgroundRect, image.NewUniform(i.GetBgColor()), image.Point{}, draw.Src)
+
+	return img
 }
