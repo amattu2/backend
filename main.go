@@ -22,6 +22,8 @@
 package main
 
 import (
+	"fmt"
+	"log"
 	"placeholder-app/backend/middlewares"
 	"placeholder-app/backend/routes"
 	"placeholder-app/backend/shared"
@@ -31,6 +33,8 @@ import (
 )
 
 var (
+	cert       = shared.GetEnv("SSLCERT", "")
+	key        = shared.GetEnv("SSLKEY", "")
 	address    = shared.GetEnv("ADDR", "")
 	port       = shared.GetEnv("PORT", "8080")
 	requestMax = shared.GetEnv("REQUESTMAX", "10")
@@ -47,5 +51,12 @@ func main() {
 
 	routes.InitRouter(engine)
 
-	engine.Run(address + ":" + port)
+	var err error
+	if cert != "" && key != "" {
+		err = engine.RunTLS(fmt.Sprintf("%s:%s", address, port), cert, key)
+	} else {
+		err = engine.Run(fmt.Sprintf("%s:%s", address, port))
+	}
+
+	log.Fatalf("Failed to start server: %s", err)
 }

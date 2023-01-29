@@ -20,7 +20,7 @@ go install
 
 ## Running
 
-Run with default options
+Run with default options (For local testing)
 
 ```bash
 go run main.go
@@ -31,6 +31,14 @@ Run with configuration (See [main.go](main.go) for options)
 ```bash
 PORT=80 go run main.go
 ```
+
+Run with SSL
+
+```bash
+SSLCERT=./cert.pem SSLKEY=./key.pem PORT=443 go run main.go
+```
+
+**Note:** On Linux, you may need to run go as `sudo` for ports 80 or 443
 
 ## Documentation
 
