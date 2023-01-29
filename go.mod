@@ -6,7 +6,10 @@ require github.com/gin-gonic/gin v1.8.2
 
 require golang.org/x/image v0.3.0
 
-require github.com/placeholder-app/go-fonts v0.1.0
+require (
+	github.com/go-playground/assert/v2 v2.0.1
+	github.com/placeholder-app/go-fonts v0.1.0
+)
 
 require (
 	github.com/gin-contrib/sse v0.1.0 // indirect

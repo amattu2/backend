@@ -21,34 +21,30 @@
 
 package shared
 
-import "testing"
+import (
+	"testing"
+
+	"github.com/go-playground/assert/v2"
+)
 
 func TestRoundTo1(t *testing.T) {
 	r := RoundTo(100, 5)
-	if r != 100 {
-		t.Error("Did not leave 100 at 100")
-	}
+	assert.Equal(t, r, 100)
 }
 
 func TestRoundTo2(t *testing.T) {
 	r := RoundTo(106, 10)
-	if r != 100 {
-		t.Error("Did not round 106 to 110")
-	}
+	assert.Equal(t, r, 100)
 }
 
 func TestRoundTo3(t *testing.T) {
 	r := RoundTo(94, 10)
-	if r != 90 {
-		t.Error("Did not round 94 to 90")
-	}
+	assert.Equal(t, r, 90)
 }
 
 func TestRoundTo4(t *testing.T) {
 	r := RoundTo(0, 10)
-	if r != 0 {
-		t.Error("Did not leave 0 as 0")
-	}
+	assert.Equal(t, r, 0)
 }
 
 func TestSplitSize1(t *testing.T) {
@@ -77,4 +73,14 @@ func TestSplitSize4(t *testing.T) {
 	if (w != 500) || (h != 0) {
 		t.Error("Did not split 500x nothing into 500x0")
 	}
+}
+
+func TestCoerceInt(t *testing.T) {
+	i := CoerceInt("100")
+	assert.Equal(t, i, 100)
+}
+
+func TestCoerceInt2(t *testing.T) {
+	i := CoerceInt("abc")
+	assert.Equal(t, i, 0)
 }

@@ -44,8 +44,21 @@ func RoundTo(x int, to int) int {
 // Example: SplitSize("100x100") = 100, 100
 func SplitSize(size string) (int, int) {
 	a := strings.Split(size, "x")
-	w, _ := strconv.Atoi(a[0])
-	h, _ := strconv.Atoi(a[1])
+	w := CoerceInt(a[0])
+	h := CoerceInt(a[1])
 
 	return RoundTo(w, 5), RoundTo(h, 5)
+}
+
+// CoerceInt attempts to convert a string to an integer, defaulting to 0
+//
+// s: string to convert
+//
+// Example: CoerceInt("100") = 100
+func CoerceInt(s string) int {
+	if i, err := strconv.Atoi(s); err == nil {
+		return i
+	}
+
+	return 0
 }

@@ -84,6 +84,20 @@ paths:
             type: string
             example: CalSansSemiBold
             description: An optional query parameter containing the font-family to use during image generation. See /fonts
+        - name: borderWidth
+          in: query
+          required: false
+          schema:
+            type: integer
+            example: 10
+            description: An optional query parameter that specifies the image border width in pixels
+        - name: borderColor
+          in: query
+          required: false
+          schema:
+            type: string
+            example: FF0000
+            description: An optional query parameter that specifies the border color.
       responses:
         "200":
           description: Successful query
@@ -133,6 +147,20 @@ paths:
             type: string
             example: Sans-Serif
             description: An optional query parameter containing the font-family to use during image generation. See /fonts
+        - name: borderWidth
+          in: query
+          required: false
+          schema:
+            type: integer
+            example: 10
+            description: An optional query parameter that specifies the image border width in pixels
+        - name: borderColor
+          in: query
+          required: false
+          schema:
+            type: string
+            example: FF0000
+            description: An optional query parameter that specifies the border color.
       responses:
         "200":
           description: Successful query
@@ -189,6 +217,20 @@ paths:
             type: string
             example: Sans-Serif
             description: An optional query parameter containing the font-family to use during image generation. See /fonts
+        - name: borderWidth
+          in: query
+          required: false
+          schema:
+            type: integer
+            example: 10
+            description: An optional query parameter that specifies the image border width in pixels
+        - name: borderColor
+          in: query
+          required: false
+          schema:
+            type: string
+            example: FF0000
+            description: An optional query parameter that specifies the border color.
       responses:
         "200":
           description: Successful query
