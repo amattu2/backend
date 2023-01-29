@@ -37,9 +37,9 @@ import (
 
 type CustomImage struct {
 	// Image dimensions in pixels
-	Width, Height int
+	Width, Height, BorderWidth int
 	// Background and text colors, text string
-	BgColor, TxtColor, Text string
+	BgColor, TxtColor, BorderColor, Text string
 	// Font family
 	FontFamily string
 }
@@ -54,8 +54,9 @@ func (i *CustomImage) Build() (data []byte, err error) {
 	fontface := fonts.CalSansSemiBold.GetFontFace(78, 32)
 	textData := fonts.CalSansSemiBold.GetTextData(fontface, i.Text)
 
-	// Add content to image
-	draw.Draw(img, img.Bounds(), &image.Uniform{i.GetBgColor()}, image.Point{}, draw.Src)
+	draw.Draw(img, img.Bounds(), i.GetBorderUniform(), image.Point{}, draw.Src)
+	draw.Draw(img, i.GetBgRect(), i.GetBgUniform(), image.Point{}, draw.Src)
+
 	drawer := font.Drawer{
 		Dst:  img,
 		Src:  &image.Uniform{i.GetTxtColor()},
@@ -101,4 +102,38 @@ func (i CustomImage) GetBgColor() color.RGBA {
 // author: James-Elicx
 func (i CustomImage) GetTxtColor() color.RGBA {
 	return i.parseColor(i.TxtColor, color.RGBA{255, 255, 255, 255})
+}
+
+// Convert CustomImage BorderColor to a color.RGBA
+//
+// Example: GetBorderColor("ffffff") = color.RGBA{255, 255, 255, 255}
+//
+// author: amattu2
+func (i CustomImage) GetBorderColor() color.RGBA {
+	return i.parseColor(i.BorderColor, color.RGBA{171, 171, 171, 255})
+}
+
+// Convert CustomImage BorderColor to a image.Uniform
+//
+// Example: GetBorderUniform("ffffff") = image.Uniform{color.RGBA{255, 255, 255, 255}}
+//
+// author: amattu2
+func (i CustomImage) GetBorderUniform() *image.Uniform {
+	return image.NewUniform(i.GetBorderColor())
+}
+
+// GetBgRect returns the image.Rectangle for the background
+//
+// author: amattu2
+func (i CustomImage) GetBgRect() image.Rectangle {
+	return image.Rect(i.BorderWidth, i.BorderWidth, i.Width-i.BorderWidth, i.Height-i.BorderWidth)
+}
+
+// Convert CustomImage BgColor to a image.Uniform
+//
+// Example: GetBgUniform("ffffff") = image.Uniform{color.RGBA{255, 255, 255, 255}}
+//
+// author: amattu2
+func (i CustomImage) GetBgUniform() *image.Uniform {
+	return image.NewUniform(i.GetBgColor())
 }

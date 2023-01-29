@@ -46,13 +46,20 @@ func GetImage(c *gin.Context) {
 		text = fmt.Sprintf("%d x %d", width, height)
 	}
 
+	var borderWidth int = shared.CoerceInt(c.Query("borderWidth"))
+	if borderWidth < 0 || borderWidth > 25 {
+		borderWidth = 0
+	}
+
 	img := shared.CustomImage{
-		Width:      width,
-		Height:     height,
-		Text:       text,
-		FontFamily: c.Query("font"),
-		BgColor:    c.Param("bgColor"),
-		TxtColor:   c.Param("txtColor"),
+		Width:       width,
+		Height:      height,
+		Text:        text,
+		FontFamily:  c.Query("font"),
+		BgColor:     c.Param("bgColor"),
+		TxtColor:    c.Param("txtColor"),
+		BorderColor: c.Query("borderColor"),
+		BorderWidth: borderWidth,
 	}
 
 	if data, err := img.Build(); err != nil {
