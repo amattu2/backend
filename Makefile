@@ -31,6 +31,9 @@ build_args = -a -o
 # Targets
 #
 
+# Generate build, docs, and tests
+all: build docs tests
+
 # Generate multi-platform builds
 build: build_linux build_freebsd build_windows build_mac
 

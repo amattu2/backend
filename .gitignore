@@ -5,6 +5,8 @@ node_modules/
 vendor/
 documentation/.openapi-generator/
 documentation/.openapi-generator-ignore
+bin/
+docs/
 
 # Specific Files
 thunderEnvironment.json
