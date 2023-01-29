@@ -19,14 +19,28 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package routes
+package middlewares
 
 import (
+	"fmt"
+	"time"
+
+	ratelimit "github.com/JGLTechnologies/gin-rate-limit"
 	"github.com/gin-gonic/gin"
 )
 
-func InitRouter(engine *gin.Engine) {
-	RegisterPublicRoutes(engine)
-	RegisterUtilityRoutes(engine)
-	RegisterImageRoutes(engine)
+func RateLimit(interval time.Duration, limit uint) gin.HandlerFunc {
+	store := ratelimit.InMemoryStore(&ratelimit.InMemoryOptions{
+		Rate:  interval,
+		Limit: limit,
+	})
+
+	return ratelimit.RateLimiter(store, &ratelimit.Options{
+		ErrorHandler: func(c *gin.Context, info ratelimit.Info) {
+			c.String(429, fmt.Sprintf("Too many requests. Try again in %s", time.Until(info.ResetTime)))
+		},
+		KeyFunc: func(c *gin.Context) string {
+			return c.ClientIP()
+		},
+	})
 }
