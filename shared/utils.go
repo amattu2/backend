@@ -22,6 +22,7 @@
 package shared
 
 import (
+	"os"
 	"strconv"
 	"strings"
 )
@@ -61,4 +62,19 @@ func CoerceInt(s string) int {
 	}
 
 	return 0
+}
+
+// GetEnv attempts to get an environment variable, defaulting to a fallback
+//
+// key: environment variable to get
+//
+// fallback: fallback value
+//
+// Example: GetEnv("PORT", "8080") = "8080"
+func GetEnv(key string, fallback string) string {
+	if value, ok := os.LookupEnv(key); ok {
+		return value
+	}
+
+	return fallback
 }

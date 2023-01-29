@@ -24,9 +24,16 @@ package main
 import (
 	"placeholder-app/backend/middlewares"
 	"placeholder-app/backend/routes"
+	"placeholder-app/backend/shared"
 	"time"
 
 	"github.com/gin-gonic/gin"
+)
+
+var (
+	address    = shared.GetEnv("ADDR", "")
+	port       = shared.GetEnv("PORT", "8080")
+	requestMax = shared.GetEnv("REQUESTMAX", "10")
 )
 
 func main() {
@@ -35,10 +42,10 @@ func main() {
 	engine := gin.Default()
 
 	engine.SetTrustedProxies(nil)
-	engine.Use(middlewares.RateLimit(time.Minute, 10))
+	engine.Use(middlewares.RateLimit(time.Minute, uint(shared.CoerceInt(requestMax))))
 	engine.Use(middlewares.CORS())
 
 	routes.InitRouter(engine)
 
-	engine.Run(":8080")
+	engine.Run(address + ":" + port)
 }
