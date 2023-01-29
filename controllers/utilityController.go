@@ -21,12 +21,23 @@
 
 package controllers
 
-import "github.com/gin-gonic/gin"
+import (
+	"net/http"
+	"placeholder-app/backend/shared"
+
+	"github.com/gin-gonic/gin"
+)
 
 func GetStatus(c *gin.Context) {
-	c.JSON(200, gin.H{"status": "OK", "notice": ""})
+	c.JSON(http.StatusOK, gin.H{
+		"status":  "ok",
+		"message": nil,
+	})
 }
 
 func GetFonts(c *gin.Context) {
-	c.JSON(200, gin.H{"status": "OK", "fonts": []string{"CalSansSemiBold"}})
+	c.JSON(http.StatusOK, gin.H{
+		"status": "ok",
+		"fonts":  shared.GetFontList(),
+	})
 }

@@ -22,11 +22,19 @@
 package routes
 
 import (
+	"placeholder-app/backend/controllers"
+
 	"github.com/gin-gonic/gin"
 )
 
 func InitRouter(engine *gin.Engine) {
-	RegisterPublicRoutes(engine)
-	RegisterUtilityRoutes(engine)
-	RegisterImageRoutes(engine)
+	// Root Routes
+	engine.GET("/status", controllers.GetStatus)
+	engine.GET("/fonts", controllers.GetFonts)
+
+	// Image Routes
+	imageRoutes := engine.Group("/image/:size")
+	imageRoutes.GET("/", controllers.GetImage)
+	imageRoutes.GET("/:bgColor", controllers.GetImage)
+	imageRoutes.GET("/:bgColor/:txtColor", controllers.GetImage)
 }

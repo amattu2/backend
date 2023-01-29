@@ -30,7 +30,7 @@ import (
 	"image/draw"
 	"image/png"
 
-	"github.com/placeholder-app/go-fonts"
+	"github.com/placeholder-app/go-fonts/util"
 	"golang.org/x/image/font"
 	"golang.org/x/image/math/fixed"
 )
@@ -51,11 +51,15 @@ type CustomImage struct {
 // Example: BuildImage(&CustomImage{Width: 100, Height: 100, Text: "Hello, World!"})
 func (i *CustomImage) Build() (data []byte, err error) {
 	// Build the image base
-	img := i.GenerateBase()
+	img := image.NewRGBA(image.Rect(0, 0, i.Width, i.Height))
+
+	// Draw the background and border
+	i.DrawBase(img)
 
 	// Draw the text
-	fontface := fonts.CalSansSemiBold.GetFontFace(78, 32)
-	textData := fonts.CalSansSemiBold.GetTextData(fontface, i.Text)
+	selectedFont := i.GetFont()
+	fontface := selectedFont.GetFontFace(78, 32)
+	textData := selectedFont.GetTextData(fontface, i.Text)
 	drawer := font.Drawer{
 		Dst:  img,
 		Src:  &image.Uniform{i.GetTxtColor()},
@@ -113,15 +117,12 @@ func (i CustomImage) GetBorderColor() color.RGBA {
 	return i.parseColor(i.BorderColor, color.RGBA{171, 171, 171, 255})
 }
 
-// GenerateBase draws the base of the image including the background and border
+// DrawBase draws the base of the image including the background and border
 //
 // img: image.RGBA to draw to
 //
 // author: amattu2
-func (i CustomImage) GenerateBase() *image.RGBA {
-	// Create the image base
-	img := image.NewRGBA(image.Rect(0, 0, i.Width, i.Height))
-
+func (i CustomImage) DrawBase(img *image.RGBA) {
 	// Draw the border
 	if i.BorderWidth > 0 {
 		borderUniform := image.NewUniform(i.GetBorderColor())
@@ -131,6 +132,12 @@ func (i CustomImage) GenerateBase() *image.RGBA {
 	// Draw the background
 	backgroundRect := image.Rect(i.BorderWidth, i.BorderWidth, i.Width-i.BorderWidth, i.Height-i.BorderWidth)
 	draw.Draw(img, backgroundRect, image.NewUniform(i.GetBgColor()), image.Point{}, draw.Src)
+}
 
-	return img
+// GetFontStruct returns the font struct for the chosen font
+// Default font is handled within fontMap.go
+//
+// author: amattu2
+func (i CustomImage) GetFont() util.Font {
+	return GetFontStruct(i.FontFamily)
 }
