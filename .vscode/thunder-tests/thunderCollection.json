@@ -24,7 +24,14 @@
         "name": "Tests",
         "containerId": "",
         "created": "2023-01-27T01:03:22.554Z",
-        "sortNum": 30000
+        "sortNum": 30000,
+        "settings": {
+          "runOptions": {
+            "delay": 0,
+            "iterations": 1,
+            "dataFilePath": ""
+          }
+        }
       }
     ],
     "settings": {
