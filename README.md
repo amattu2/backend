@@ -4,7 +4,7 @@ This is the backend API behind [placeholder.app](https://placeholder.app). See t
 
 # Usage
 
-## Install
+## Setup
 
 ```bash
 git clone https://github.com/placeholder-app/backend
@@ -18,7 +18,37 @@ cd backend/
 go install
 ```
 
-## Running
+## Building
+
+To build all binaries from the source
+
+```bash
+make build
+```
+
+To build a specific binary
+
+```bash
+make build_[platform]
+```
+
+Platforms: `linux`, `mac`, `freebsd`, `windows`
+
+All of the above commands output to the `/bin` folder by default. To run the application, simply execute the build
+
+```bash
+./bin/[platform]
+```
+
+To clean the workspace
+
+```bash
+make clean
+```
+
+## Running Directly
+
+If you choose to run without compiling, you can refer to this section.
 
 Run with default options (For local testing)
 
@@ -40,20 +70,49 @@ SSLCERT=./cert.pem SSLKEY=./key.pem PORT=443 go run main.go
 
 **Note:** On Linux, you may need to run go as `sudo` for ports 80 or 443
 
-## Documentation
+# Testing & Documentation
 
-OpenAPI (Swagger) documentation included in [.vscode/openapi.yml](.vscode/openapi.yml)
+## Testing
+
+The included makefile provides options to run golang test cases, and to build the openapi documentation.
+
+To run the included Golang unit tests, with coverage,
 
 ```bash
-openapi-generator-cli generate --skip-validate-spec -i ./.vscode/openapi.yml -g html2 -o ./documentation
+make tests
 ```
 
-ThunderClient requests included in [.vscode/thunder-tests](.vscode/thunder-tests)
+**Note:** This will not output any files. See the commandline output
+
+## Building OpenAPI Docs
+
+The OpenAPI (swagger) file is in [.vscode/openapi.yml](.vscode/openapi.yml).
+
+To build the HTML documentation file (found on [docs.placeholder.app](https://docs.placeholder.app)), see below.
+
+```bash
+make docs
+```
+
+Alternatively, you can run the command directly
+
+```bash
+openapi-generator-cli generate --skip-validate-spec -i ./.vscode/openapi.yml -g html2 -o ./docs
+```
+
+Both of the above commands output the HTML documentation inside ./docs
+
+## HTTP Request Simulation
+
+If you use VisualStudio Code, the ThunderClient request repository is available in [.vscode/thunder-tests](.vscode/thunder-tests).
+
+You can simulate requests to the API, or run HTTP-based testing.
 
 # Requirements & Dependencies
 
 - Go 1.19
 - [gin-gonic/gin](github.com/gin-gonic/gin)
+- openapi-generator-cli (For documentation only)
 
 # Credits
 
