@@ -33,7 +33,12 @@ paths:
                     items:
                       type: string
                       title: Font Name
-                      example: abc
+                      example: Sans-Serif
+          headers:
+            X-Rate-Limit-Limit:
+              $ref: '#/components/headers/X-Rate-Limit-Limit'
+            X-Rate-Limit-Remaining:
+              $ref: '#/components/headers/X-Rate-Limit-Remaining'
 
   /status:
     get:
@@ -54,6 +59,11 @@ paths:
                   notice:
                     type: string
                     example: Update to backend API releasing on 2022-12-24.
+          headers:
+            X-Rate-Limit-Limit:
+              $ref: '#/components/headers/X-Rate-Limit-Limit'
+            X-Rate-Limit-Remaining:
+              $ref: '#/components/headers/X-Rate-Limit-Remaining'
   /image/{size}:
     get:
       operationId: /image/{size}
@@ -106,10 +116,25 @@ paths:
               schema:
                 type: object
                 description: Base64 encoded image output.
+          headers:
+            X-Rate-Limit-Limit:
+              $ref: '#/components/headers/X-Rate-Limit-Limit'
+            X-Rate-Limit-Remaining:
+              $ref: '#/components/headers/X-Rate-Limit-Remaining'
         "400":
           description: The parameters passed are invalid or unacceptable.
+          headers:
+            X-Rate-Limit-Limit:
+              $ref: '#/components/headers/X-Rate-Limit-Limit'
+            X-Rate-Limit-Remaining:
+              $ref: '#/components/headers/X-Rate-Limit-Remaining'
         "500":
           description: An unknown server error occured, retry later.
+          headers:
+            X-Rate-Limit-Limit:
+              $ref: '#/components/headers/X-Rate-Limit-Limit'
+            X-Rate-Limit-Remaining:
+              $ref: '#/components/headers/X-Rate-Limit-Remaining'
   /image/{size}/{bgColor}:
     get:
       operationId: /image/{size}/{bgColor}
@@ -169,10 +194,25 @@ paths:
               schema:
                 type: object
                 description: Base64 encoded image output.
+          headers:
+            X-Rate-Limit-Limit:
+              $ref: '#/components/headers/X-Rate-Limit-Limit'
+            X-Rate-Limit-Remaining:
+              $ref: '#/components/headers/X-Rate-Limit-Remaining'
         "400":
           description: The parameters passed are invalid or unacceptable.
+          headers:
+            X-Rate-Limit-Limit:
+              $ref: '#/components/headers/X-Rate-Limit-Limit'
+            X-Rate-Limit-Remaining:
+              $ref: '#/components/headers/X-Rate-Limit-Remaining'
         "500":
           description: An unknown server error occured, retry later.
+          headers:
+            X-Rate-Limit-Limit:
+              $ref: '#/components/headers/X-Rate-Limit-Limit'
+            X-Rate-Limit-Remaining:
+              $ref: '#/components/headers/X-Rate-Limit-Remaining'
   /image/{size}/{bgColor}/{txtColor}:
     get:
       operationId: /image/{size}/{bgColor}/{txtColor}
@@ -239,7 +279,33 @@ paths:
               schema:
                 type: object
                 description: Base64 encoded image output.
+          headers:
+            X-Rate-Limit-Limit:
+              $ref: '#/components/headers/X-Rate-Limit-Limit'
+            X-Rate-Limit-Remaining:
+              $ref: '#/components/headers/X-Rate-Limit-Remaining'
         "400":
           description: The parameters passed are invalid or unacceptable.
+          headers:
+            X-Rate-Limit-Limit:
+              $ref: '#/components/headers/X-Rate-Limit-Limit'
+            X-Rate-Limit-Remaining:
+              $ref: '#/components/headers/X-Rate-Limit-Remaining'
         "500":
           description: An unknown server error occured, retry later.
+          headers:
+            X-Rate-Limit-Limit:
+              $ref: '#/components/headers/X-Rate-Limit-Limit'
+            X-Rate-Limit-Remaining:
+              $ref: '#/components/headers/X-Rate-Limit-Remaining'
+components:
+  headers:
+    X-Rate-Limit-Limit:
+      description: Request limit per minute
+      schema:
+        type: integer
+      example: 10
+    X-Rate-Limit-Remaining:
+      schema:
+        type: integer
+      example: 3

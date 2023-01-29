@@ -19,14 +19,12 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package routes
+package middlewares
 
 import (
-	"github.com/gin-gonic/gin"
+	"testing"
 )
 
-func InitRouter(engine *gin.Engine) {
-	RegisterPublicRoutes(engine)
-	RegisterUtilityRoutes(engine)
-	RegisterImageRoutes(engine)
+func TestCorsMiddleware(t *testing.T) {
+	// To be implemented
 }

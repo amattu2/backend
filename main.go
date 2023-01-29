@@ -22,16 +22,23 @@
 package main
 
 import (
+	"placeholder-app/backend/middlewares"
 	"placeholder-app/backend/routes"
+	"time"
 
 	"github.com/gin-gonic/gin"
 )
 
 func main() {
-	r := gin.Default()
+	gin.SetMode(gin.ReleaseMode)
 
-	routes.InitRouter(r)
+	engine := gin.Default()
 
-	r.SetTrustedProxies(nil)
-	r.Run(":8080")
+	engine.SetTrustedProxies(nil)
+	engine.Use(middlewares.RateLimit(time.Minute, 10))
+	engine.Use(middlewares.CORS())
+
+	routes.InitRouter(engine)
+
+	engine.Run(":8080")
 }
