@@ -1,22 +1,68 @@
-# name: API Deployment
-# author: amattu2
-# description: This action handles the API upgrade for the production server
+name: API Deployment
+author: amattu2
+description: This action handles the API upgrade for the production server on new releases.
 
-# on:
-#   push:
-#     branches: ["master"]
-#     paths-ignore:
-#       - ".vscode/**"
-#       - ".github/**"
+on:
+  push:
+    branches: ["master"]
+    tags:
+      - "v*"
+    paths-ignore:
+      - ".vscode/**"
+      - ".github/**"
 
-# jobs:
-#   build:
-#     runs-on: ubuntu-latest
-#     if: ${{ github.repository_owner == 'placeholder-app' }}
-#     steps:
-#       - name: SSH Into Production
-#         run: |
-#           ssh ${{ secrets.prod_server }}
-#           cd /var/www/backend && git pull origin master
-#           make build_linux
-#           service API restart
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    if: ${{ github.repository_owner == 'placeholder-app' }}
+    permissions:
+      deployments: write
+    steps:
+      # Setup Local SSH Key
+      - name: Install SSH Key
+        uses: shimataro/ssh-key-action@v2
+        with:
+          key: ${{ secrets.PROD_SSH_PK }}
+          known_hosts: 'temporary-value-ignore'
+
+      # Add Server To Known Hosts
+      - name: Setup Known Hosts
+        run: ssh-keyscan -H ${{ secrets.PROD_SSH_HOST }} >> ~/.ssh/known_hosts
+
+      # Create GitHub Deployment
+      - uses: chrnorm/deployment-action@v2
+        name: Create Deployment
+        id: deployment
+        with:
+          token: '${{ github.token }}'
+          environment-url: https://api.placeholder.app
+          environment: production
+          description: Production environment deployment
+          auto-inactive: true
+
+      # Update Production
+      - name: Update Production
+        run: |
+          ssh ${{ secrets.PROD_SSH_USER }}@${{ secrets.PROD_SSH_HOST }}
+          cd /var/www/backend && git pull origin master
+          make build_linux
+          service API restart
+          exit
+
+      - name: Update Deployment Status (Success)
+        if: success()
+        uses: chrnorm/deployment-status@v2
+        with:
+          token: '${{ github.token }}'
+          environment-url: ${{ steps.deployment.outputs.environment_url }}
+          deployment-id: ${{ steps.deployment.outputs.deployment_id }}
+          state: 'success'
+
+      - name: Update Deployment Status (Fail)
+        if: failure()
+        uses: chrnorm/deployment-status@v2
+        with:
+          token: '${{ github.token }}'
+          environment-url: ${{ steps.deployment.outputs.environment_url }}
+          deployment-id: ${{ steps.deployment.outputs.deployment_id }}
+          state: 'failure'
