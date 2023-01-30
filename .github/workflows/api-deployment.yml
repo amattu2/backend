@@ -41,11 +41,10 @@ jobs:
       # Update Production
       - name: Update Production
         run: |
-          ssh ${{ secrets.PROD_SSH_USER }}@${{ secrets.PROD_SSH_HOST }}
-          cd /var/www/backend && git pull origin master
-          make build_linux
-          service API restart
-          exit
+          ssh ${{ secrets.PROD_SSH_USER }}@${{ secrets.PROD_SSH_HOST }} "
+            cd /var/www/backend && git pull origin master
+            && make build_linux
+            && sudo service API restart"
 
       - name: Update Deployment Status (Success)
         if: success()
