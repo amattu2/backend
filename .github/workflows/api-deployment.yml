@@ -1,8 +1,13 @@
 # name: API Deployment
+# author: amattu2
+# description: This action handles the API upgrade for the production server
 
 # on:
 #   push:
 #     branches: ["master"]
+#     paths-ignore:
+#       - ".vscode/**"
+#       - ".github/**"
 
 # jobs:
 #   build:

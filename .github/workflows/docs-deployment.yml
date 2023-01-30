@@ -1,4 +1,6 @@
 name: Docs Deployment
+author: amattu2
+description: This action builds the API docs and commits them to the api-docs repository
 
 on:
   push:
