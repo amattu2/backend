@@ -1,4 +1,4 @@
-name: OpenAPI Documentation
+name: Docs Deployment
 
 on:
   push:
