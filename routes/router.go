@@ -28,11 +28,31 @@ import (
 )
 
 func InitRouter(engine *gin.Engine) {
-	// Root Routes
+	/**
+	 * Root Route
+	 *
+	 * @GET /
+	 */
+	engine.GET("/", func(c *gin.Context) {
+		c.Redirect(301, "https://placeholder.app")
+	})
+
+	/**
+	 * Utility Routes
+	 *
+	 * @GET /status
+	 * @GET /fonts
+	 */
 	engine.GET("/status", controllers.GetStatus)
 	engine.GET("/fonts", controllers.GetFonts)
 
-	// Image Routes
+	/**
+	 * Image Routes
+	 *
+	 * @GET /image/{size}
+	 * @GET /image/{size}/{bgColor}
+	 * @GET /image/{size}/{bgColor}/{txtColor}
+	 */
 	imageRoutes := engine.Group("/image/:size")
 	imageRoutes.GET("/", controllers.GetImage)
 	imageRoutes.GET("/:bgColor", controllers.GetImage)
