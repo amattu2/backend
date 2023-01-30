@@ -1,0 +1,17 @@
+# name: API Deployment
+
+# on:
+#   push:
+#     branches: ["master"]
+
+# jobs:
+#   build:
+#     runs-on: ubuntu-latest
+#     if: ${{ github.repository_owner == 'placeholder-app' }}
+#     steps:
+#       - name: SSH Into Production
+#         run: |
+#           ssh ${{ secrets.prod_server }}
+#           cd /var/www/backend && git pull origin master
+#           make build_linux
+#           service API restart
