@@ -43,8 +43,7 @@ jobs:
         run: |
           ssh ${{ secrets.PROD_SSH_USER }}@${{ secrets.PROD_SSH_HOST }} "
             cd /var/www/backend && git pull origin master
-            && make build_linux
-            && sudo service API restart"
+            make build_linux && sudo service API restart"
 
       - name: Update Deployment Status (Success)
         if: success()
