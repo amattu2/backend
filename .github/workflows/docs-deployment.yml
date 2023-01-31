@@ -4,7 +4,7 @@ on:
   push:
     branches: ["master"]
     paths:
-      - ".vscode/**"
+      - ".vscode/**.yml"
 
 jobs:
   generate:
