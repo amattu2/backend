@@ -30,6 +30,13 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+func GetFormats(c *gin.Context) {
+	c.JSON(http.StatusOK, gin.H{
+		"status":  "ok",
+		"formats": []string{"png", "jpg", "bmp", "gif"},
+	})
+}
+
 func GetFonts(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{
 		"status": "ok",
@@ -64,6 +71,7 @@ func GetImage(c *gin.Context) {
 		Height:      height,
 		Text:        text,
 		FontFamily:  c.Query("font"),
+		Format:      c.Query("format"),
 		BgColor:     c.Param("bgColor"),
 		TxtColor:    c.Param("txtColor"),
 		BorderColor: c.Query("borderColor"),
@@ -74,7 +82,7 @@ func GetImage(c *gin.Context) {
 		c.AbortWithStatus(http.StatusInternalServerError)
 	} else {
 		c.Header("Cache-Control", "public, max-age=86400")
-		c.Header("Content-Disposition", "inline; filename=image.png")
-		c.Data(http.StatusCreated, "image/png", data)
+		c.Header("Content-Disposition", "inline; filename=image")
+		c.Data(http.StatusCreated, img.ContentType, data)
 	}
 }

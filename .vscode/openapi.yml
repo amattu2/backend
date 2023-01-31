@@ -63,6 +63,36 @@ paths:
               $ref: '#/components/headers/X-Rate-Limit-Limit'
             X-Rate-Limit-Remaining:
               $ref: '#/components/headers/X-Rate-Limit-Remaining'
+  /image/formats:
+    get:
+      operationId: /image/formats
+      summary: List supported image formats
+      description: Returns a list of all supported placeholder image formats usable. No parameters supported.
+      responses:
+        "200":
+          description: Successful query
+          content:
+            application/json:
+              schema:
+                type: object
+                title: Result
+                properties:
+                  status:
+                    title: API Status Message
+                    type: object
+                    example: ok
+                  formats:
+                    title: Font Array
+                    type: array
+                    items:
+                      type: string
+                      title: Format Name
+                      example: jpg
+          headers:
+            X-Rate-Limit-Limit:
+              $ref: '#/components/headers/X-Rate-Limit-Limit'
+            X-Rate-Limit-Remaining:
+              $ref: '#/components/headers/X-Rate-Limit-Remaining'
   /image/{size}:
     get:
       operationId: /image/{size}
@@ -107,6 +137,13 @@ paths:
             type: string
             example: FF0000
             description: An optional query parameter that specifies the border color.
+        - name: format
+          in: query
+          required: false
+          schema:
+            type: string
+            example: png
+            description: An option query parameter that specifies the output image format. See /image/formats
       responses:
         "201":
           description: Image Created
@@ -185,6 +222,13 @@ paths:
             type: string
             example: FF0000
             description: An optional query parameter that specifies the border color.
+        - name: format
+          in: query
+          required: false
+          schema:
+            type: string
+            example: png
+            description: An option query parameter that specifies the output image format. See /image/formats
       responses:
         "201":
           description: Image Created
@@ -270,6 +314,13 @@ paths:
             type: string
             example: FF0000
             description: An optional query parameter that specifies the border color.
+        - name: format
+          in: query
+          required: false
+          schema:
+            type: string
+            example: png
+            description: An option query parameter that specifies the output image format. See /image/formats
       responses:
         "201":
           description: Image Created
