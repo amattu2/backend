@@ -22,9 +22,42 @@
 package middlewares
 
 import (
+	"net/http"
+	"net/http/httptest"
 	"testing"
+
+	"github.com/gin-gonic/gin"
+	"github.com/go-playground/assert/v2"
 )
 
-func TestCorsMiddleware(t *testing.T) {
-	// To be implemented
+func TestCorsMiddlewareHeaders(t *testing.T) {
+	gin.SetMode(gin.TestMode)
+
+	w := httptest.NewRecorder()
+	c, _ := gin.CreateTestContext(w)
+
+	c.Request = httptest.NewRequest("GET", "/", nil)
+
+	CORS()(c)
+
+	assert.Equal(t, http.StatusOK, w.Code)
+	assert.Equal(t, "*", w.Header().Get("Access-Control-Allow-Origin"))
+	assert.Equal(t, "OPTIONS, GET", w.Header().Get("Access-Control-Allow-Methods"))
+	assert.Equal(t, "true", w.Header().Get("Access-Control-Allow-Credentials"))
+}
+
+func TestCorsOptionsMethod(t *testing.T) {
+	gin.SetMode(gin.TestMode)
+
+	w := httptest.NewRecorder()
+	c, _ := gin.CreateTestContext(w)
+
+	c.Request = httptest.NewRequest("OPTIONS", "/", nil)
+
+	CORS()(c)
+
+	assert.Equal(t, http.StatusNoContent, w.Code)
+	assert.Equal(t, "*", w.Header().Get("Access-Control-Allow-Origin"))
+	assert.Equal(t, "OPTIONS, GET", w.Header().Get("Access-Control-Allow-Methods"))
+	assert.Equal(t, "true", w.Header().Get("Access-Control-Allow-Credentials"))
 }

@@ -84,3 +84,13 @@ func TestCoerceInt2(t *testing.T) {
 	i := CoerceInt("abc")
 	assert.Equal(t, i, 0)
 }
+
+func TestGetEnvExisting(t *testing.T) {
+	t.Setenv("TEST", "100")
+
+	assert.Equal(t, "100", GetEnv("TEST", "0"))
+}
+
+func TestGetEnvDefault(t *testing.T) {
+	assert.Equal(t, "DEFAULT", GetEnv("TEST", "DEFAULT"))
+}

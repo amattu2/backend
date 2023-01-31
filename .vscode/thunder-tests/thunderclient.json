@@ -59,7 +59,7 @@
     "method": "GET",
     "sortNum": 20000,
     "created": "2023-01-26T17:51:58.255Z",
-    "modified": "2023-01-27T19:11:57.474Z",
+    "modified": "2023-01-31T21:39:31.489Z",
     "headers": [],
     "params": [
       {
@@ -84,12 +84,6 @@
       {
         "type": "json-query",
         "custom": "json.status",
-        "action": "istype",
-        "value": "string"
-      },
-      {
-        "type": "json-query",
-        "custom": "json.notice",
         "action": "istype",
         "value": "string"
       }
@@ -394,7 +388,7 @@
     "method": "GET",
     "sortNum": 30000,
     "created": "2023-01-31T14:16:10.891Z",
-    "modified": "2023-01-31T14:16:22.973Z",
+    "modified": "2023-01-31T21:38:46.691Z",
     "headers": [],
     "params": [
       {
@@ -424,7 +418,7 @@
       },
       {
         "type": "json-query",
-        "custom": "json.fonts",
+        "custom": "json.formats",
         "action": "istype",
         "value": "array"
       },

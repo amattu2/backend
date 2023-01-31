@@ -66,7 +66,7 @@ func GetImage(c *gin.Context) {
 		borderWidth = 0
 	}
 
-	img := shared.CustomImage{
+	var img = shared.CustomImage{
 		Width:       width,
 		Height:      height,
 		Text:        text,

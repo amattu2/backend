@@ -31,7 +31,6 @@ import (
 	"image/jpeg"
 	"image/png"
 
-	"github.com/placeholder-app/go-fonts/util"
 	"golang.org/x/image/bmp"
 	"golang.org/x/image/font"
 	"golang.org/x/image/math/fixed"
@@ -61,16 +60,7 @@ func (i *CustomImage) Build() (data []byte, err error) {
 	i.DrawBase(img)
 
 	// Draw the text
-	selectedFont := i.GetFont()
-	fontface := selectedFont.GetFontFace(78, 32)
-	textData := selectedFont.GetTextData(fontface, i.Text)
-	drawer := font.Drawer{
-		Dst:  img,
-		Src:  &image.Uniform{i.GetTxtColor()},
-		Face: fontface.Face,
-		Dot:  fixed.P((i.Width-textData.Width)/2, (i.Height/2)+(textData.Height/2)),
-	}
-	drawer.DrawString(i.Text)
+	i.DrawText(img)
 
 	// Encode the image
 	if buf, err := i.Encode(img); err != nil {
@@ -137,14 +127,6 @@ func (i CustomImage) DrawBase(img *image.RGBA) {
 	draw.Draw(img, backgroundRect, image.NewUniform(i.GetBgColor()), image.Point{}, draw.Src)
 }
 
-// GetFontStruct returns the font struct for the chosen font
-// Default font is handled within fontMap.go
-//
-// author: amattu2
-func (i CustomImage) GetFont() util.Font {
-	return GetFontStruct(i.FontFamily)
-}
-
 // Encode encodes the image to the specified format
 //
 // img: image.RGBA to encode
@@ -175,4 +157,27 @@ func (i *CustomImage) Encode(img *image.RGBA) (bytes.Buffer, error) {
 	}
 
 	return buf, err
+}
+
+// DrawText draws the text to the image
+//
+// img: image.RGBA to draw to
+//
+// author: amattu2
+func (i *CustomImage) DrawText(img *image.RGBA) {
+	// Get the font
+	selectedFont := GetFontStruct(i.FontFamily)
+	fontface := selectedFont.GetFontFace(78, 32)
+	textData := selectedFont.GetTextData(fontface, i.Text)
+
+	// Create the drawer
+	drawer := font.Drawer{
+		Dst:  img,
+		Src:  &image.Uniform{i.GetTxtColor()},
+		Face: fontface.Face,
+		Dot:  fixed.P((i.Width-textData.Width)/2, (i.Height/2)+(textData.Height/2)),
+	}
+
+	// Draw the text
+	drawer.DrawString(i.Text)
 }

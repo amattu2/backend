@@ -22,10 +22,14 @@
 package controllers
 
 import (
+	"encoding/json"
+	"net/http"
 	"net/http/httptest"
+	"strings"
 	"testing"
 
 	"github.com/gin-gonic/gin"
+	"github.com/go-playground/assert/v2"
 )
 
 func TestUtilityController(t *testing.T) {
@@ -36,7 +40,9 @@ func TestUtilityController(t *testing.T) {
 
 	GetStatus(context)
 
-	if recorder.Code != 200 {
-		t.Errorf("Expected 301, got %d", recorder.Code)
-	}
+	assert.Equal(t, http.StatusOK, recorder.Code)
+	assert.Equal(t, "application/json; charset=utf-8", recorder.Header().Get("Content-Type"))
+	assert.Equal(t, true, json.Valid(recorder.Body.Bytes()))
+	assert.Equal(t, true, strings.Contains(recorder.Body.String(), "status"))
+	assert.Equal(t, true, strings.Contains(recorder.Body.String(), "message"))
 }

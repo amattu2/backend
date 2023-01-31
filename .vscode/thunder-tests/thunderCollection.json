@@ -36,8 +36,8 @@
     ],
     "settings": {
       "runOptions": {
-        "delay": 0,
-        "iterations": 8,
+        "delay": 10,
+        "iterations": 3,
         "dataFilePath": ""
       }
     }

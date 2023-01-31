@@ -22,9 +22,26 @@
 package middlewares
 
 import (
+	"net/http"
+	"net/http/httptest"
 	"testing"
+	"time"
+
+	"github.com/gin-gonic/gin"
+	"github.com/go-playground/assert/v2"
 )
 
 func TestRateLimitMiddleware(t *testing.T) {
-	// To be implemented
+	gin.SetMode(gin.TestMode)
+
+	w := httptest.NewRecorder()
+	c, _ := gin.CreateTestContext(w)
+
+	c.Request = httptest.NewRequest("OPTIONS", "/", nil)
+
+	RateLimit(time.Microsecond, 0)(c)
+
+	assert.Equal(t, http.StatusTooManyRequests, w.Code)
+	assert.Equal(t, "0", w.Header().Get("X-Rate-Limit-Remaining"))
+	assert.Equal(t, true, w.Header().Get("X-Rate-Limit-Reset") != "")
 }

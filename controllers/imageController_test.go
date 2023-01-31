@@ -22,14 +22,17 @@
 package controllers
 
 import (
+	"encoding/json"
+	"net/http"
 	"net/http/httptest"
 	"strings"
 	"testing"
 
 	"github.com/gin-gonic/gin"
+	"github.com/go-playground/assert/v2"
 )
 
-func TestImageController1(t *testing.T) {
+func TestImageGenerateNoOptions(t *testing.T) {
 	gin.SetMode(gin.TestMode)
 
 	recorder := httptest.NewRecorder()
@@ -37,81 +40,106 @@ func TestImageController1(t *testing.T) {
 
 	GetImage(context)
 
-	if recorder.Code != 400 {
-		t.Errorf("Expected 400, got %d", recorder.Code)
-	}
+	assert.Equal(t, http.StatusBadRequest, recorder.Code)
 }
 
-func TestImageController2(t *testing.T) {
+func TestAcceptWithOversizedBorder(t *testing.T) {
 	gin.SetMode(gin.TestMode)
 
 	recorder := httptest.NewRecorder()
 	context, _ := gin.CreateTestContext(recorder)
-
-	context.Params = gin.Params{{Key: "size", Value: "fakesize"}}
-	GetImage(context)
-	if recorder.Code != 400 {
-		t.Errorf("Expected 400, got %d", recorder.Code)
-	}
-}
-
-func TestImageController3(t *testing.T) {
-	gin.SetMode(gin.TestMode)
-
-	recorder := httptest.NewRecorder()
-	context, _ := gin.CreateTestContext(recorder)
-
-	context.Params = gin.Params{{Key: "size", Value: "0x0"}}
-	GetImage(context)
-	if recorder.Code != 400 {
-		t.Errorf("Expected 400, got %d", recorder.Code)
-	}
-}
-
-func TestImageController4(t *testing.T) {
-	gin.SetMode(gin.TestMode)
-
-	recorder := httptest.NewRecorder()
-	context, _ := gin.CreateTestContext(recorder)
-
-	context.Params = gin.Params{{Key: "size", Value: "-450x500"}}
-	GetImage(context)
-	if recorder.Code != 400 {
-		t.Errorf("Expected 400, got %d", recorder.Code)
-	}
-}
-
-func TestImageController5(t *testing.T) {
-	gin.SetMode(gin.TestMode)
-
-	recorder := httptest.NewRecorder()
-	context, _ := gin.CreateTestContext(recorder)
-
-	context.Params = gin.Params{{Key: "size", Value: "5555x240"}}
-	GetImage(context)
-	if recorder.Code != 400 {
-		t.Errorf("Expected 400, got %d", recorder.Code)
-	}
-}
-
-func TestImageController6(t *testing.T) {
-	gin.SetMode(gin.TestMode)
-
-	recorder := httptest.NewRecorder()
-	context, _ := gin.CreateTestContext(recorder)
-
 	context.Params = gin.Params{
-		{Key: "size", Value: "555x240"},
-		{Key: "text", Value: strings.Repeat("a", 101)},
+		{Key: "size", Value: "100x100"},
 	}
+	context.Request = httptest.NewRequest("GET", "/?borderWidth=26&format=gif", nil)
 
 	GetImage(context)
-	if recorder.Code != 201 {
-		t.Errorf("Expected 201, got %d", recorder.Code)
-	}
+
+	assert.Equal(t, http.StatusCreated, recorder.Code)
+	assert.Equal(t, "image/gif", recorder.Header().Get("Content-Type"))
 }
 
-func TestImageController7(t *testing.T) {
+func TestAcceptWithUndersizedBorder(t *testing.T) {
+	gin.SetMode(gin.TestMode)
+
+	recorder := httptest.NewRecorder()
+	context, _ := gin.CreateTestContext(recorder)
+	context.Params = gin.Params{
+		{Key: "size", Value: "100x100"},
+	}
+	context.Request = httptest.NewRequest("GET", "/?borderWidth=-1", nil)
+
+	GetImage(context)
+
+	assert.Equal(t, http.StatusCreated, recorder.Code)
+	assert.Equal(t, "image/png", recorder.Header().Get("Content-Type"))
+}
+
+func TestIncorrectImageSizeFormat(t *testing.T) {
+	gin.SetMode(gin.TestMode)
+
+	recorder := httptest.NewRecorder()
+	context, _ := gin.CreateTestContext(recorder)
+	context.Params = gin.Params{{Key: "size", Value: "fakesize"}}
+
+	GetImage(context)
+
+	assert.Equal(t, http.StatusBadRequest, recorder.Code)
+}
+
+func TestInvalidImageSize1(t *testing.T) {
+	gin.SetMode(gin.TestMode)
+
+	recorder := httptest.NewRecorder()
+	context, _ := gin.CreateTestContext(recorder)
+	context.Params = gin.Params{{Key: "size", Value: "0x0"}}
+
+	GetImage(context)
+
+	assert.Equal(t, http.StatusBadRequest, recorder.Code)
+}
+
+func TestInvalidImageSize2(t *testing.T) {
+	gin.SetMode(gin.TestMode)
+
+	recorder := httptest.NewRecorder()
+	context, _ := gin.CreateTestContext(recorder)
+	context.Params = gin.Params{{Key: "size", Value: "-450x500"}}
+
+	GetImage(context)
+
+	assert.Equal(t, http.StatusBadRequest, recorder.Code)
+}
+
+func TestInvalidImageSize3(t *testing.T) {
+	gin.SetMode(gin.TestMode)
+
+	recorder := httptest.NewRecorder()
+	context, _ := gin.CreateTestContext(recorder)
+	context.Params = gin.Params{{Key: "size", Value: "5555x240"}}
+
+	GetImage(context)
+
+	assert.Equal(t, http.StatusBadRequest, recorder.Code)
+}
+
+func TestValidImageCreateFormat(t *testing.T) {
+	gin.SetMode(gin.TestMode)
+
+	recorder := httptest.NewRecorder()
+	context, _ := gin.CreateTestContext(recorder)
+	context.Params = []gin.Param{
+		{Key: "size", Value: "315x315"},
+	}
+	context.Request = httptest.NewRequest("GET", "/?format=bmp", nil)
+
+	GetImage(context)
+
+	assert.Equal(t, http.StatusCreated, recorder.Code)
+	assert.Equal(t, "image/bmp", recorder.Header().Get("Content-Type"))
+}
+
+func TestGetImageFonts(t *testing.T) {
 	gin.SetMode(gin.TestMode)
 
 	recorder := httptest.NewRecorder()
@@ -119,7 +147,24 @@ func TestImageController7(t *testing.T) {
 
 	GetFonts(context)
 
-	if recorder.Code != 200 {
-		t.Errorf("Expected 200, got %d", recorder.Code)
-	}
+	assert.Equal(t, http.StatusOK, recorder.Code)
+	assert.Equal(t, "application/json; charset=utf-8", recorder.Header().Get("Content-Type"))
+	assert.Equal(t, true, json.Valid(recorder.Body.Bytes()))
+	assert.Equal(t, true, strings.Contains(recorder.Body.String(), "status"))
+	assert.Equal(t, true, strings.Contains(recorder.Body.String(), "fonts"))
+}
+
+func TestGetImageFormats(t *testing.T) {
+	gin.SetMode(gin.TestMode)
+
+	recorder := httptest.NewRecorder()
+	context, _ := gin.CreateTestContext(recorder)
+
+	GetFormats(context)
+
+	assert.Equal(t, http.StatusOK, recorder.Code)
+	assert.Equal(t, "application/json; charset=utf-8", recorder.Header().Get("Content-Type"))
+	assert.Equal(t, true, json.Valid(recorder.Body.Bytes()))
+	assert.Equal(t, true, strings.Contains(recorder.Body.String(), "status"))
+	assert.Equal(t, true, strings.Contains(recorder.Body.String(), "formats"))
 }
