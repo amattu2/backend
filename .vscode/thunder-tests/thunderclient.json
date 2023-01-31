@@ -2,13 +2,13 @@
   {
     "_id": "9cb69717-21cc-4588-a484-9ef063d70f83",
     "colId": "7694981b-9fc4-4980-a4c5-12b59d01112d",
-    "containerId": "148e0dd4-cf8d-4a3b-9e36-5862cf3f3061",
+    "containerId": "9209516e-8e85-4584-88e7-3fe73fb2eebe",
     "name": "fonts",
-    "url": "{route}/fonts",
+    "url": "{route}/image/fonts",
     "method": "GET",
-    "sortNum": 10000,
+    "sortNum": 20000,
     "created": "2023-01-26T14:22:44.872Z",
-    "modified": "2023-01-27T19:11:13.811Z",
+    "modified": "2023-01-31T13:18:00.176Z",
     "headers": [],
     "params": [
       {
@@ -100,11 +100,11 @@
     "colId": "7694981b-9fc4-4980-a4c5-12b59d01112d",
     "containerId": "9209516e-8e85-4584-88e7-3fe73fb2eebe",
     "name": "image",
-    "url": "{route}/image/{size}/{bgColor}/{txtColor}?text=hello&font=CalSansSemiBold&borderWidth=25&borderColor=FF0000",
+    "url": "{route}/image/{size}/{bgColor}/{txtColor}?text=hello&font=CalSansSemiBold&borderWidth=25&borderColor=FF0000&format=bmp",
     "method": "GET",
     "sortNum": 10000,
     "created": "2023-01-26T17:53:36.396Z",
-    "modified": "2023-01-29T22:15:15.892Z",
+    "modified": "2023-01-31T14:16:47.334Z",
     "headers": [],
     "params": [
       {
@@ -146,6 +146,11 @@
         "name": "borderColor",
         "value": "FF0000",
         "isPath": false
+      },
+      {
+        "name": "format",
+        "value": "bmp",
+        "isPath": false
       }
     ],
     "tests": [
@@ -153,7 +158,7 @@
         "type": "res-code",
         "custom": "",
         "action": "equal",
-        "value": "200"
+        "value": "201"
       },
       {
         "type": "Content-Length",
@@ -170,8 +175,8 @@
       {
         "type": "custom-header",
         "custom": "Content-Type",
-        "action": "equal",
-        "value": "image/png"
+        "action": "istype",
+        "value": "string"
       },
       {
         "type": "custom-header",
@@ -192,11 +197,11 @@
     "colId": "7694981b-9fc4-4980-a4c5-12b59d01112d",
     "containerId": "f3e5b1f5-e5b9-48c3-99c1-ebcc14a90ef5",
     "name": "1 - Valid Request",
-    "url": "{route}/image/{size}/{bgColor}/{txtColor}?text=test",
+    "url": "{route}/image/{size}/{bgColor}/{txtColor}?text=test&formatng=p",
     "method": "GET",
     "sortNum": 10000,
     "created": "2023-01-27T01:03:22.554Z",
-    "modified": "2023-01-27T01:05:49.988Z",
+    "modified": "2023-01-31T14:17:15.299Z",
     "headers": [],
     "params": [
       {
@@ -223,6 +228,11 @@
         "name": "text",
         "value": "test",
         "isPath": false
+      },
+      {
+        "name": "formatng",
+        "value": "p",
+        "isPath": false
       }
     ],
     "tests": [
@@ -230,7 +240,7 @@
         "type": "res-code",
         "custom": "",
         "action": "equal",
-        "value": "200"
+        "value": "201"
       },
       {
         "type": "Content-Length",
@@ -313,11 +323,11 @@
     "colId": "7694981b-9fc4-4980-a4c5-12b59d01112d",
     "containerId": "f3e5b1f5-e5b9-48c3-99c1-ebcc14a90ef5",
     "name": "3 - Valid with Rounding",
-    "url": "{route}/image/{size}/{bgColor}/{txtColor}",
+    "url": "{route}/image/{size}/{bgColor}/{txtColor}?format=bmp",
     "method": "GET",
     "sortNum": 15000,
     "created": "2023-01-27T13:04:57.941Z",
-    "modified": "2023-01-27T13:05:51.144Z",
+    "modified": "2023-01-31T14:18:12.347Z",
     "headers": [],
     "params": [
       {
@@ -329,6 +339,11 @@
         "name": "size",
         "value": "402x399",
         "isPath": true
+      },
+      {
+        "name": "format",
+        "value": "bmp",
+        "isPath": false
       }
     ],
     "tests": [
@@ -336,7 +351,7 @@
         "type": "res-code",
         "custom": "",
         "action": "equal",
-        "value": "200"
+        "value": "201"
       },
       {
         "type": "Content-Length",
@@ -354,7 +369,7 @@
         "type": "custom-header",
         "custom": "Content-Type",
         "action": "equal",
-        "value": "image/png"
+        "value": "image/bmp"
       },
       {
         "type": "custom-header",
@@ -367,6 +382,57 @@
         "custom": "x-rate-limit-remaining",
         "action": ">=",
         "value": "0"
+      }
+    ]
+  },
+  {
+    "_id": "9e8495ca-39f7-4caf-89a7-aada61a55c6d",
+    "colId": "7694981b-9fc4-4980-a4c5-12b59d01112d",
+    "containerId": "9209516e-8e85-4584-88e7-3fe73fb2eebe",
+    "name": "formats",
+    "url": "{route}/image/formats",
+    "method": "GET",
+    "sortNum": 30000,
+    "created": "2023-01-31T14:16:10.891Z",
+    "modified": "2023-01-31T14:16:22.973Z",
+    "headers": [],
+    "params": [
+      {
+        "name": "route",
+        "value": "http://localhost:8080",
+        "isPath": true
+      }
+    ],
+    "tests": [
+      {
+        "type": "res-code",
+        "custom": "",
+        "action": "equal",
+        "value": "200"
+      },
+      {
+        "type": "Content-Type",
+        "custom": "",
+        "action": "contains",
+        "value": "application/json"
+      },
+      {
+        "type": "res-body",
+        "custom": "",
+        "action": "isjson",
+        "value": "true"
+      },
+      {
+        "type": "json-query",
+        "custom": "json.fonts",
+        "action": "istype",
+        "value": "array"
+      },
+      {
+        "type": "json-query",
+        "custom": "json.status",
+        "action": "istype",
+        "value": "string"
       }
     ]
   }

@@ -22,6 +22,7 @@
 package routes
 
 import (
+	"net/http"
 	"placeholder-app/backend/controllers"
 
 	"github.com/gin-gonic/gin"
@@ -34,27 +35,29 @@ func InitRouter(engine *gin.Engine) {
 	 * @GET /
 	 */
 	engine.GET("/", func(c *gin.Context) {
-		c.Redirect(301, "https://placeholder.app")
+		c.Redirect(http.StatusTemporaryRedirect, "https://placeholder.app")
 	})
 
 	/**
 	 * Utility Routes
 	 *
 	 * @GET /status
-	 * @GET /fonts
 	 */
 	engine.GET("/status", controllers.GetStatus)
-	engine.GET("/fonts", controllers.GetFonts)
 
 	/**
 	 * Image Routes
 	 *
+	 * @GET /image/fonts
+	 * @GET /image/formats
 	 * @GET /image/{size}
 	 * @GET /image/{size}/{bgColor}
 	 * @GET /image/{size}/{bgColor}/{txtColor}
 	 */
-	imageRoutes := engine.Group("/image/:size")
-	imageRoutes.GET("/", controllers.GetImage)
-	imageRoutes.GET("/:bgColor", controllers.GetImage)
-	imageRoutes.GET("/:bgColor/:txtColor", controllers.GetImage)
+	imageRoutes := engine.Group("/image")
+	imageRoutes.GET("/fonts", controllers.GetFonts)
+	imageRoutes.GET("/formats", controllers.GetFormats)
+	imageRoutes.GET("/:size/", controllers.GetImage)
+	imageRoutes.GET("/:size/:bgColor", controllers.GetImage)
+	imageRoutes.GET("/:size/:bgColor/:txtColor", controllers.GetImage)
 }

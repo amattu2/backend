@@ -9,9 +9,33 @@ servers:
   - url: http://localhost:8080
     description: Local API Test Server
 paths:
-  /fonts:
+  /status:
     get:
-      operationId: /fonts
+      operationId: /status
+      summary: Output current service status
+      description: Returns a JSON object with information pertaining to the current service status
+      responses:
+        "200":
+          description: Successful query
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: OK
+                  notice:
+                    type: string
+                    example: Update to backend API releasing on 2022-12-24.
+          headers:
+            X-Rate-Limit-Limit:
+              $ref: '#/components/headers/X-Rate-Limit-Limit'
+            X-Rate-Limit-Remaining:
+              $ref: '#/components/headers/X-Rate-Limit-Remaining'
+  /image/fonts:
+    get:
+      operationId: /image/fonts
       summary: List supported image fonts
       description: Returns a list of all supported placeholder image fonts usable. No parameters supported.
       responses:
@@ -39,12 +63,11 @@ paths:
               $ref: '#/components/headers/X-Rate-Limit-Limit'
             X-Rate-Limit-Remaining:
               $ref: '#/components/headers/X-Rate-Limit-Remaining'
-
-  /status:
+  /image/formats:
     get:
-      operationId: /status
-      summary: Output current service status
-      description: Returns a JSON object with information pertaining to the current service status
+      operationId: /image/formats
+      summary: List supported image formats
+      description: Returns a list of all supported placeholder image formats usable. No parameters supported.
       responses:
         "200":
           description: Successful query
@@ -52,13 +75,19 @@ paths:
             application/json:
               schema:
                 type: object
+                title: Result
                 properties:
                   status:
-                    type: string
-                    example: OK
-                  notice:
-                    type: string
-                    example: Update to backend API releasing on 2022-12-24.
+                    title: API Status Message
+                    type: object
+                    example: ok
+                  formats:
+                    title: Font Array
+                    type: array
+                    items:
+                      type: string
+                      title: Format Name
+                      example: jpg
           headers:
             X-Rate-Limit-Limit:
               $ref: '#/components/headers/X-Rate-Limit-Limit'
@@ -108,9 +137,16 @@ paths:
             type: string
             example: FF0000
             description: An optional query parameter that specifies the border color.
+        - name: format
+          in: query
+          required: false
+          schema:
+            type: string
+            example: png
+            description: An option query parameter that specifies the output image format. See /image/formats
       responses:
-        "200":
-          description: Successful query
+        "201":
+          description: Image Created
           content:
             application/json:
               schema:
@@ -186,9 +222,16 @@ paths:
             type: string
             example: FF0000
             description: An optional query parameter that specifies the border color.
+        - name: format
+          in: query
+          required: false
+          schema:
+            type: string
+            example: png
+            description: An option query parameter that specifies the output image format. See /image/formats
       responses:
-        "200":
-          description: Successful query
+        "201":
+          description: Image Created
           content:
             application/json:
               schema:
@@ -271,9 +314,16 @@ paths:
             type: string
             example: FF0000
             description: An optional query parameter that specifies the border color.
+        - name: format
+          in: query
+          required: false
+          schema:
+            type: string
+            example: png
+            description: An option query parameter that specifies the output image format. See /image/formats
       responses:
-        "200":
-          description: Successful query
+        "201":
+          description: Image Created
           content:
             application/json:
               schema:

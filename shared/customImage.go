@@ -24,13 +24,15 @@ package shared
 import (
 	"bytes"
 	"encoding/hex"
-	"fmt"
 	"image"
 	"image/color"
 	"image/draw"
+	"image/gif"
+	"image/jpeg"
 	"image/png"
 
 	"github.com/placeholder-app/go-fonts/util"
+	"golang.org/x/image/bmp"
 	"golang.org/x/image/font"
 	"golang.org/x/image/math/fixed"
 )
@@ -38,10 +40,12 @@ import (
 type CustomImage struct {
 	// Image dimensions in pixels
 	Width, Height, BorderWidth int
-	// Background and text colors, text string
-	BgColor, TxtColor, BorderColor, Text string
-	// Font family
-	FontFamily string
+	// Colors
+	BgColor, TxtColor, BorderColor string
+	// Text to display
+	Text string
+	// Export format, ContentType, Font family
+	Format, ContentType, FontFamily string
 }
 
 // BuildImage builds an image from the CustomImage struct
@@ -69,9 +73,8 @@ func (i *CustomImage) Build() (data []byte, err error) {
 	drawer.DrawString(i.Text)
 
 	// Encode the image
-	var buf bytes.Buffer
-	if err := png.Encode(&buf, img); err != nil {
-		return nil, fmt.Errorf("failed to encode image: %v", err)
+	if buf, err := i.Encode(img); err != nil {
+		return nil, err
 	} else {
 		return buf.Bytes(), nil
 	}
@@ -140,4 +143,36 @@ func (i CustomImage) DrawBase(img *image.RGBA) {
 // author: amattu2
 func (i CustomImage) GetFont() util.Font {
 	return GetFontStruct(i.FontFamily)
+}
+
+// Encode encodes the image to the specified format
+//
+// img: image.RGBA to encode
+//
+// author: amattu2
+func (i *CustomImage) Encode(img *image.RGBA) (bytes.Buffer, error) {
+	var buf bytes.Buffer
+	var err error = nil
+
+	switch fmt := i.Format; fmt {
+	case "jpeg":
+	case "jpg":
+		err = jpeg.Encode(&buf, img, nil)
+		i.ContentType = "image/jpeg"
+	case "bmp":
+		err = bmp.Encode(&buf, img)
+		i.ContentType = "image/bmp"
+	case "gif":
+		err = gif.Encode(&buf, img, nil)
+		i.ContentType = "image/gif"
+	default:
+		err = png.Encode(&buf, img)
+		i.ContentType = "image/png"
+	}
+
+	if err != nil {
+		i.ContentType = ""
+	}
+
+	return buf, err
 }

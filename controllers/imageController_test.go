@@ -106,6 +106,19 @@ func TestImageController6(t *testing.T) {
 	}
 
 	GetImage(context)
+	if recorder.Code != 201 {
+		t.Errorf("Expected 201, got %d", recorder.Code)
+	}
+}
+
+func TestImageController7(t *testing.T) {
+	gin.SetMode(gin.TestMode)
+
+	recorder := httptest.NewRecorder()
+	context, _ := gin.CreateTestContext(recorder)
+
+	GetFonts(context)
+
 	if recorder.Code != 200 {
 		t.Errorf("Expected 200, got %d", recorder.Code)
 	}

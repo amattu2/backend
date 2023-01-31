@@ -23,21 +23,36 @@ package controllers
 
 import (
 	"fmt"
+	"net/http"
 	"placeholder-app/backend/shared"
 	"strings"
 
 	"github.com/gin-gonic/gin"
 )
 
+func GetFormats(c *gin.Context) {
+	c.JSON(http.StatusOK, gin.H{
+		"status":  "ok",
+		"formats": []string{"png", "jpg", "bmp", "gif"},
+	})
+}
+
+func GetFonts(c *gin.Context) {
+	c.JSON(http.StatusOK, gin.H{
+		"status": "ok",
+		"fonts":  shared.GetFontList(),
+	})
+}
+
 func GetImage(c *gin.Context) {
 	if c.Params == nil || !strings.Contains(c.Param("size"), "x") {
-		c.AbortWithStatus(400)
+		c.AbortWithStatus(http.StatusBadRequest)
 		return
 	}
 
 	var width, height int = shared.SplitSize(c.Param("size"))
 	if width < 30 || width > 4000 || height < 30 || height > 4000 {
-		c.AbortWithStatus(400)
+		c.AbortWithStatus(http.StatusBadRequest)
 		return
 	}
 
@@ -56,6 +71,7 @@ func GetImage(c *gin.Context) {
 		Height:      height,
 		Text:        text,
 		FontFamily:  c.Query("font"),
+		Format:      c.Query("format"),
 		BgColor:     c.Param("bgColor"),
 		TxtColor:    c.Param("txtColor"),
 		BorderColor: c.Query("borderColor"),
@@ -63,10 +79,10 @@ func GetImage(c *gin.Context) {
 	}
 
 	if data, err := img.Build(); err != nil {
-		c.AbortWithStatus(500)
+		c.AbortWithStatus(http.StatusInternalServerError)
 	} else {
 		c.Header("Cache-Control", "public, max-age=86400")
-		c.Header("Content-Disposition", "inline; filename=image.png")
-		c.Data(200, "image/png", data)
+		c.Header("Content-Disposition", "inline; filename=image")
+		c.Data(http.StatusCreated, img.ContentType, data)
 	}
 }
