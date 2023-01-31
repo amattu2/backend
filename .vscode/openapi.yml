@@ -9,9 +9,33 @@ servers:
   - url: http://localhost:8080
     description: Local API Test Server
 paths:
-  /fonts:
+  /status:
     get:
-      operationId: /fonts
+      operationId: /status
+      summary: Output current service status
+      description: Returns a JSON object with information pertaining to the current service status
+      responses:
+        "200":
+          description: Successful query
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: OK
+                  notice:
+                    type: string
+                    example: Update to backend API releasing on 2022-12-24.
+          headers:
+            X-Rate-Limit-Limit:
+              $ref: '#/components/headers/X-Rate-Limit-Limit'
+            X-Rate-Limit-Remaining:
+              $ref: '#/components/headers/X-Rate-Limit-Remaining'
+  /image/fonts:
+    get:
+      operationId: /image/fonts
       summary: List supported image fonts
       description: Returns a list of all supported placeholder image fonts usable. No parameters supported.
       responses:
@@ -34,31 +58,6 @@ paths:
                       type: string
                       title: Font Name
                       example: Sans-Serif
-          headers:
-            X-Rate-Limit-Limit:
-              $ref: '#/components/headers/X-Rate-Limit-Limit'
-            X-Rate-Limit-Remaining:
-              $ref: '#/components/headers/X-Rate-Limit-Remaining'
-
-  /status:
-    get:
-      operationId: /status
-      summary: Output current service status
-      description: Returns a JSON object with information pertaining to the current service status
-      responses:
-        "200":
-          description: Successful query
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  status:
-                    type: string
-                    example: OK
-                  notice:
-                    type: string
-                    example: Update to backend API releasing on 2022-12-24.
           headers:
             X-Rate-Limit-Limit:
               $ref: '#/components/headers/X-Rate-Limit-Limit'
@@ -109,8 +108,8 @@ paths:
             example: FF0000
             description: An optional query parameter that specifies the border color.
       responses:
-        "200":
-          description: Successful query
+        "201":
+          description: Image Created
           content:
             application/json:
               schema:
@@ -187,8 +186,8 @@ paths:
             example: FF0000
             description: An optional query parameter that specifies the border color.
       responses:
-        "200":
-          description: Successful query
+        "201":
+          description: Image Created
           content:
             application/json:
               schema:
@@ -272,8 +271,8 @@ paths:
             example: FF0000
             description: An optional query parameter that specifies the border color.
       responses:
-        "200":
-          description: Successful query
+        "201":
+          description: Image Created
           content:
             application/json:
               schema:

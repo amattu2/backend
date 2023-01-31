@@ -28,20 +28,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func TestUtilityController1(t *testing.T) {
-	gin.SetMode(gin.TestMode)
-
-	recorder := httptest.NewRecorder()
-	context, _ := gin.CreateTestContext(recorder)
-
-	GetFonts(context)
-
-	if recorder.Code != 200 {
-		t.Errorf("Expected 200, got %d", recorder.Code)
-	}
-}
-
-func TestUtilityController2(t *testing.T) {
+func TestUtilityController(t *testing.T) {
 	gin.SetMode(gin.TestMode)
 
 	recorder := httptest.NewRecorder()
