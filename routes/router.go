@@ -24,6 +24,7 @@ package routes
 import (
 	"net/http"
 	"placeholder-app/backend/controllers"
+	"placeholder-app/backend/shared"
 
 	"github.com/gin-gonic/gin"
 )
@@ -35,7 +36,7 @@ func InitRouter(engine *gin.Engine) {
 	 * @GET /
 	 */
 	engine.GET("/", func(c *gin.Context) {
-		c.Redirect(http.StatusTemporaryRedirect, "https://placeholder.app")
+		c.Redirect(http.StatusTemporaryRedirect, shared.GetEnv("APP_URL", "https://placeholder.app"))
 	})
 
 	/**
