@@ -2,6 +2,11 @@
 
 This is the backend API behind [placeholder.app](https://placeholder.app). See the frontend repository [here](../../../frontend)
 
+[![Go Tests](https://github.com/placeholder-app/backend/actions/workflows/go-tests.yml/badge.svg)](https://github.com/placeholder-app/backend/actions/workflows/go-tests.yml)
+
+[![Dependency Review](https://github.com/placeholder-app/backend/actions/workflows/dependency-review.yml/badge.svg)](https://github.com/placeholder-app/backend/actions/workflows/dependency-review.yml)
+
+
 # Usage
 
 ## Setup
