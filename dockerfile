@@ -1,5 +1,12 @@
 FROM golang:latest
 
+ARG ADDR
+ENV ADDR $ADDR
+ARG PORT
+ENV PORT $PORT
+ARG REQUESTMAX
+ENV REQUESTMAX $REQUESTMAX
+
 WORKDIR /backend
 
 ADD . ./
@@ -10,7 +17,7 @@ RUN go build -a -o ./server
 
 CMD ["./server"]
 
-EXPOSE 8080
+EXPOSE ${PORT}
 
 HEALTHCHECK --interval=30s --timeout=3s \
-  CMD curl --fail http://localhost:8080/status || exit 1
+  CMD curl --fail http://${ADDR}:${PORT}/status || exit 1
