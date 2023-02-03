@@ -6,19 +6,15 @@ on:
     paths-ignore:
       - ".vscode/**"
       - ".github/**"
-#    paths:
-#      - "**.go"
   pull_request:
     branches: ["master"]
     paths-ignore:
       - ".vscode/**"
       - ".github/**"
-#    paths:
-#      - "**.go"
 
 jobs:
   tests:
-    if: ${{ github.repository_owner == 'placeholder-app' }}  
+    if: ${{ github.repository_owner == 'placeholder-app' }}
     strategy:
       matrix:
         go-version: [1.17.x, 1.18.x, 1.19.x]
@@ -29,7 +25,7 @@ jobs:
       - uses: actions/checkout@v3
         with:
           go-version: ${{ matrix.go-version }}
-          
+
       # Install dependencies
       - name: Setup Go
         uses: actions/setup-go@v3

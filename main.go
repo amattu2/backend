@@ -38,10 +38,14 @@ var (
 	address    = shared.GetEnv("ADDR", "")
 	port       = shared.GetEnv("PORT", "8080")
 	requestMax = shared.GetEnv("REQUESTMAX", "10")
+	env        = shared.GetEnv("APP_ENV", "prod")
 )
 
 func main() {
 	gin.SetMode(gin.ReleaseMode)
+	if env == "dev" {
+		gin.SetMode(gin.DebugMode)
+	}
 
 	engine := gin.Default()
 
