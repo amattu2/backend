@@ -30,6 +30,7 @@ import (
 	"image/gif"
 	"image/jpeg"
 	"image/png"
+	"math"
 
 	"golang.org/x/image/bmp"
 	"golang.org/x/image/font"
@@ -167,7 +168,7 @@ func (i *CustomImage) Encode(img *image.RGBA) (bytes.Buffer, error) {
 func (i *CustomImage) DrawText(img *image.RGBA) {
 	// Get the font
 	selectedFont := GetFontStruct(i.FontFamily)
-	fontface := selectedFont.GetFontFace(78, 32)
+	fontface := selectedFont.GetFontFace(72, 0.15*math.Min(float64(i.Width), float64(i.Height)))
 	textData := selectedFont.GetTextData(fontface, i.Text)
 
 	// Create the drawer
