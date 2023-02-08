@@ -6,6 +6,33 @@ This is the backend API behind [placeholder.app](https://placeholder.app). See t
 [![Go Report Card](https://goreportcard.com/badge/github.com/placeholder-app/backend)](https://goreportcard.com/report/github.com/placeholder-app/backend)
 [![Dependency Review](https://github.com/placeholder-app/backend/actions/workflows/dependency-review.yml/badge.svg)](https://github.com/placeholder-app/backend/actions/workflows/dependency-review.yml)
 
+## Examples
+
+Sizes supported are 30px thru 4000px. These are just example sizes with default options.
+
+<details>
+  <summary>Image Examples</summary>
+
+  ![img](https://api.placeholder.app/image/30x30)
+
+  ![img](https://api.placeholder.app/image/70x70)
+
+  ![img](https://api.placeholder.app/image/120x120)
+
+  ![img](https://api.placeholder.app/image/160x160)
+
+  ![img](https://api.placeholder.app/image/200x200)
+
+  ![img](https://api.placeholder.app/image/245x245)
+
+  ![img](https://api.placeholder.app/image/310x310)
+
+  ![img](https://api.placeholder.app/image/450x450)
+
+  ![img](https://api.placeholder.app/image/650x650)
+
+</details>
+
 # Usage
 
 ## Setup
