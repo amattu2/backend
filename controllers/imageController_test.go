@@ -55,7 +55,7 @@ func TestAcceptWithOversizedBorder(t *testing.T) {
 
 	GetImage(context)
 
-	assert.Equal(t, http.StatusCreated, recorder.Code)
+	assert.Equal(t, http.StatusOK, recorder.Code)
 	assert.Equal(t, "image/gif", recorder.Header().Get("Content-Type"))
 }
 
@@ -71,7 +71,7 @@ func TestAcceptWithUndersizedBorder(t *testing.T) {
 
 	GetImage(context)
 
-	assert.Equal(t, http.StatusCreated, recorder.Code)
+	assert.Equal(t, http.StatusOK, recorder.Code)
 	assert.Equal(t, "image/png", recorder.Header().Get("Content-Type"))
 }
 
@@ -135,7 +135,7 @@ func TestValidImageCreateFormat(t *testing.T) {
 
 	GetImage(context)
 
-	assert.Equal(t, http.StatusCreated, recorder.Code)
+	assert.Equal(t, http.StatusOK, recorder.Code)
 	assert.Equal(t, "image/bmp", recorder.Header().Get("Content-Type"))
 }
 

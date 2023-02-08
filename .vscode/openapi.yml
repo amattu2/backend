@@ -145,7 +145,7 @@ paths:
             example: png
             description: An option query parameter that specifies the output image format. See /image/formats
       responses:
-        "201":
+        "200":
           description: Image Created
           content:
             application/json:
@@ -230,7 +230,7 @@ paths:
             example: png
             description: An option query parameter that specifies the output image format. See /image/formats
       responses:
-        "201":
+        "200":
           description: Image Created
           content:
             application/json:
@@ -322,7 +322,7 @@ paths:
             example: png
             description: An option query parameter that specifies the output image format. See /image/formats
       responses:
-        "201":
+        "200":
           description: Image Created
           content:
             application/json:

@@ -83,6 +83,6 @@ func GetImage(c *gin.Context) {
 	} else {
 		c.Header("Cache-Control", "public, max-age=86400")
 		c.Header("Content-Disposition", "inline; filename=image")
-		c.Data(http.StatusCreated, img.ContentType, data)
+		c.Data(http.StatusOK, img.ContentType, data)
 	}
 }
