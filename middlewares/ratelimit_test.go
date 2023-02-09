@@ -19,11 +19,12 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package middlewares
+package middlewares_test
 
 import (
 	"net/http"
 	"net/http/httptest"
+	"placeholder-app/backend/middlewares"
 	"testing"
 	"time"
 
@@ -39,7 +40,7 @@ func TestRateLimitMiddleware(t *testing.T) {
 
 	c.Request = httptest.NewRequest("OPTIONS", "/", nil)
 
-	RateLimit(time.Microsecond, 0)(c)
+	middlewares.RateLimit(time.Microsecond, 0)(c)
 
 	assert.Equal(t, http.StatusTooManyRequests, w.Code)
 	assert.Equal(t, "0", w.Header().Get("X-Rate-Limit-Remaining"))

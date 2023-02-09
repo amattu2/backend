@@ -19,12 +19,13 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package controllers
+package controllers_test
 
 import (
 	"encoding/json"
 	"net/http"
 	"net/http/httptest"
+	"placeholder-app/backend/controllers"
 	"strings"
 	"testing"
 
@@ -38,7 +39,7 @@ func TestImageGenerateNoOptions(t *testing.T) {
 	recorder := httptest.NewRecorder()
 	context, _ := gin.CreateTestContext(recorder)
 
-	GetImage(context)
+	controllers.GetImage(context)
 
 	assert.Equal(t, http.StatusBadRequest, recorder.Code)
 }
@@ -53,7 +54,7 @@ func TestAcceptWithOversizedBorder(t *testing.T) {
 	}
 	context.Request = httptest.NewRequest("GET", "/?borderWidth=26&format=gif", nil)
 
-	GetImage(context)
+	controllers.GetImage(context)
 
 	assert.Equal(t, http.StatusOK, recorder.Code)
 	assert.Equal(t, "image/gif", recorder.Header().Get("Content-Type"))
@@ -69,7 +70,7 @@ func TestAcceptWithUndersizedBorder(t *testing.T) {
 	}
 	context.Request = httptest.NewRequest("GET", "/?borderWidth=-1", nil)
 
-	GetImage(context)
+	controllers.GetImage(context)
 
 	assert.Equal(t, http.StatusOK, recorder.Code)
 	assert.Equal(t, "image/png", recorder.Header().Get("Content-Type"))
@@ -82,7 +83,7 @@ func TestIncorrectImageSizeFormat(t *testing.T) {
 	context, _ := gin.CreateTestContext(recorder)
 	context.Params = gin.Params{{Key: "size", Value: "fakesize"}}
 
-	GetImage(context)
+	controllers.GetImage(context)
 
 	assert.Equal(t, http.StatusBadRequest, recorder.Code)
 }
@@ -94,7 +95,7 @@ func TestInvalidImageSize1(t *testing.T) {
 	context, _ := gin.CreateTestContext(recorder)
 	context.Params = gin.Params{{Key: "size", Value: "0x0"}}
 
-	GetImage(context)
+	controllers.GetImage(context)
 
 	assert.Equal(t, http.StatusBadRequest, recorder.Code)
 }
@@ -106,7 +107,7 @@ func TestInvalidImageSize2(t *testing.T) {
 	context, _ := gin.CreateTestContext(recorder)
 	context.Params = gin.Params{{Key: "size", Value: "-450x500"}}
 
-	GetImage(context)
+	controllers.GetImage(context)
 
 	assert.Equal(t, http.StatusBadRequest, recorder.Code)
 }
@@ -118,7 +119,7 @@ func TestInvalidImageSize3(t *testing.T) {
 	context, _ := gin.CreateTestContext(recorder)
 	context.Params = gin.Params{{Key: "size", Value: "5555x240"}}
 
-	GetImage(context)
+	controllers.GetImage(context)
 
 	assert.Equal(t, http.StatusBadRequest, recorder.Code)
 }
@@ -133,7 +134,7 @@ func TestValidImageCreateFormat(t *testing.T) {
 	}
 	context.Request = httptest.NewRequest("GET", "/?format=bmp", nil)
 
-	GetImage(context)
+	controllers.GetImage(context)
 
 	assert.Equal(t, http.StatusOK, recorder.Code)
 	assert.Equal(t, "image/bmp", recorder.Header().Get("Content-Type"))
@@ -145,7 +146,7 @@ func TestGetImageFonts(t *testing.T) {
 	recorder := httptest.NewRecorder()
 	context, _ := gin.CreateTestContext(recorder)
 
-	GetFonts(context)
+	controllers.GetFonts(context)
 
 	assert.Equal(t, http.StatusOK, recorder.Code)
 	assert.Equal(t, "application/json; charset=utf-8", recorder.Header().Get("Content-Type"))
@@ -160,7 +161,7 @@ func TestGetImageFormats(t *testing.T) {
 	recorder := httptest.NewRecorder()
 	context, _ := gin.CreateTestContext(recorder)
 
-	GetFormats(context)
+	controllers.GetFormats(context)
 
 	assert.Equal(t, http.StatusOK, recorder.Code)
 	assert.Equal(t, "application/json; charset=utf-8", recorder.Header().Get("Content-Type"))

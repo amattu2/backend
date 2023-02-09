@@ -19,78 +19,79 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package shared
+package shared_test
 
 import (
+	"placeholder-app/backend/shared"
 	"testing"
 
 	"github.com/go-playground/assert/v2"
 )
 
 func TestRoundTo1(t *testing.T) {
-	r := RoundTo(100, 5)
+	r := shared.RoundTo(100, 5)
 	assert.Equal(t, r, 100)
 }
 
 func TestRoundTo2(t *testing.T) {
-	r := RoundTo(106, 10)
+	r := shared.RoundTo(106, 10)
 	assert.Equal(t, r, 100)
 }
 
 func TestRoundTo3(t *testing.T) {
-	r := RoundTo(94, 10)
+	r := shared.RoundTo(94, 10)
 	assert.Equal(t, r, 90)
 }
 
 func TestRoundTo4(t *testing.T) {
-	r := RoundTo(0, 10)
+	r := shared.RoundTo(0, 10)
 	assert.Equal(t, r, 0)
 }
 
 func TestSplitSize1(t *testing.T) {
-	w, h := SplitSize("100x100")
+	w, h := shared.SplitSize("100x100")
 	if (w != 100) || (h != 100) {
 		t.Error("Did not split 100x100 into 100x100")
 	}
 }
 
 func TestSplitSize2(t *testing.T) {
-	w, h := SplitSize("100x100x5")
+	w, h := shared.SplitSize("100x100x5")
 	if (w != 100) || (h != 100) {
 		t.Error("Did not split 100x100x5 into 100x100")
 	}
 }
 
 func TestSplitSize3(t *testing.T) {
-	w, h := SplitSize("302x949")
+	w, h := shared.SplitSize("302x949")
 	if (w != 300) || (h != 950) {
 		t.Error("Did not split 302x949 into 300x950")
 	}
 }
 
 func TestSplitSize4(t *testing.T) {
-	w, h := SplitSize("500x")
+	w, h := shared.SplitSize("500x")
 	if (w != 500) || (h != 0) {
 		t.Error("Did not split 500x nothing into 500x0")
 	}
 }
 
 func TestCoerceInt(t *testing.T) {
-	i := CoerceInt("100")
+	i := shared.CoerceInt("100")
 	assert.Equal(t, i, 100)
 }
 
 func TestCoerceInt2(t *testing.T) {
-	i := CoerceInt("abc")
+	i := shared.CoerceInt("abc")
 	assert.Equal(t, i, 0)
 }
 
 func TestGetEnvExisting(t *testing.T) {
 	t.Setenv("TEST", "100")
 
-	assert.Equal(t, "100", GetEnv("TEST", "0"))
+	assert.Equal(t, "100", shared.GetEnv("TEST", "0"))
 }
 
 func TestGetEnvDefault(t *testing.T) {
-	assert.Equal(t, "DEFAULT", GetEnv("TEST", "DEFAULT"))
+	assert.Equal(t, "DEFAULT", shared.GetEnv("TEST", "DEFAULT"))
 }
