@@ -51,7 +51,7 @@ func main() {
 
 	engine.SetTrustedProxies(nil)
 	engine.Use(middlewares.RateLimit(time.Minute, uint(shared.CoerceInt(requestMax))))
-	engine.Use(middlewares.CORS())
+	engine.Use(middlewares.Cors())
 
 	routes.InitRouter(engine)
 

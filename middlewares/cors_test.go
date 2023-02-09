@@ -30,20 +30,19 @@ import (
 	"github.com/go-playground/assert/v2"
 )
 
-func TestCorsMiddlewareHeaders(t *testing.T) {
+func TestCorsHeadMethod(t *testing.T) {
 	gin.SetMode(gin.TestMode)
 
 	w := httptest.NewRecorder()
 	c, _ := gin.CreateTestContext(w)
 
-	c.Request = httptest.NewRequest("GET", "/", nil)
+	c.Request = httptest.NewRequest("HEAD", "/", nil)
 
-	CORS()(c)
+	Cors()(c)
 
 	assert.Equal(t, http.StatusOK, w.Code)
 	assert.Equal(t, "*", w.Header().Get("Access-Control-Allow-Origin"))
-	assert.Equal(t, "OPTIONS, GET", w.Header().Get("Access-Control-Allow-Methods"))
-	assert.Equal(t, "true", w.Header().Get("Access-Control-Allow-Credentials"))
+	assert.Equal(t, "HEAD, OPTIONS, GET", w.Header().Get("Access-Control-Allow-Methods"))
 }
 
 func TestCorsOptionsMethod(t *testing.T) {
@@ -54,10 +53,76 @@ func TestCorsOptionsMethod(t *testing.T) {
 
 	c.Request = httptest.NewRequest("OPTIONS", "/", nil)
 
-	CORS()(c)
+	Cors()(c)
 
 	assert.Equal(t, http.StatusNoContent, w.Code)
 	assert.Equal(t, "*", w.Header().Get("Access-Control-Allow-Origin"))
-	assert.Equal(t, "OPTIONS, GET", w.Header().Get("Access-Control-Allow-Methods"))
-	assert.Equal(t, "true", w.Header().Get("Access-Control-Allow-Credentials"))
+	assert.Equal(t, "HEAD, OPTIONS, GET", w.Header().Get("Access-Control-Allow-Methods"))
+}
+
+func TestCorsGetMethod(t *testing.T) {
+	gin.SetMode(gin.TestMode)
+
+	w := httptest.NewRecorder()
+	c, _ := gin.CreateTestContext(w)
+
+	c.Request = httptest.NewRequest("GET", "/", nil)
+
+	Cors()(c)
+
+	assert.Equal(t, http.StatusOK, w.Code)
+	assert.Equal(t, "*", w.Header().Get("Access-Control-Allow-Origin"))
+	assert.Equal(t, "HEAD, OPTIONS, GET", w.Header().Get("Access-Control-Allow-Methods"))
+}
+
+func TestCorsPostMethod(t *testing.T) {
+	gin.SetMode(gin.TestMode)
+
+	w := httptest.NewRecorder()
+	c, _ := gin.CreateTestContext(w)
+
+	c.Request = httptest.NewRequest("POST", "/", nil)
+
+	Cors()(c)
+
+	assert.Equal(t, http.StatusMethodNotAllowed, w.Code)
+}
+
+func TestCorsDeleteMethod(t *testing.T) {
+	gin.SetMode(gin.TestMode)
+
+	w := httptest.NewRecorder()
+	c, _ := gin.CreateTestContext(w)
+
+	c.Request = httptest.NewRequest("DELETE", "/", nil)
+
+	Cors()(c)
+
+	assert.Equal(t, http.StatusMethodNotAllowed, w.Code)
+}
+
+func TestCorsPutMethod(t *testing.T) {
+	gin.SetMode(gin.TestMode)
+
+	w := httptest.NewRecorder()
+	c, _ := gin.CreateTestContext(w)
+
+	c.Request = httptest.NewRequest("PUT", "/", nil)
+
+	Cors()(c)
+
+	assert.Equal(t, http.StatusMethodNotAllowed, w.Code)
+}
+
+func TestCorsPatchMethod(t *testing.T) {
+	gin.SetMode(gin.TestMode)
+
+	w := httptest.NewRecorder()
+	c, _ := gin.CreateTestContext(w)
+
+	c.Request = httptest.NewRequest("PATCH", "/", nil)
+
+	Cors()(c)
+
+	assert.Equal(t, http.StatusMethodNotAllowed, w.Code)
 }
