@@ -22,6 +22,8 @@
 package shared
 
 import (
+	"crypto/md5"
+	"encoding/hex"
 	"os"
 	"strconv"
 	"strings"
@@ -77,4 +79,17 @@ func GetEnv(key string, fallback string) string {
 	}
 
 	return fallback
+}
+
+// GenerateHash generates an MD5 hash of a string
+//
+// str: string to hash
+//
+// Example: GenerateHash("example") = "1a79a4d60de6718e8e5b326e338ae533"
+//
+// Note: This is not designed to be cryptographically secure
+func GenerateMD5Hash(str string) string {
+	hash := md5.Sum([]byte(str))
+
+	return hex.EncodeToString(hash[:])
 }

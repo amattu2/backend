@@ -98,7 +98,7 @@
     "method": "GET",
     "sortNum": 10000,
     "created": "2023-01-26T17:53:36.396Z",
-    "modified": "2023-02-08T23:23:18.634Z",
+    "modified": "2023-02-09T13:39:50.673Z",
     "headers": [],
     "params": [
       {
@@ -183,6 +183,12 @@
         "custom": "x-rate-limit-remaining",
         "action": ">=",
         "value": "0"
+      },
+      {
+        "type": "custom-header",
+        "custom": "ETag",
+        "action": "istype",
+        "value": "string"
       }
     ]
   },

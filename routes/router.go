@@ -24,6 +24,7 @@ package routes
 import (
 	"net/http"
 	"placeholder-app/backend/controllers"
+	"placeholder-app/backend/middlewares"
 	"placeholder-app/backend/shared"
 
 	"github.com/gin-gonic/gin"
@@ -49,13 +50,15 @@ func InitRouter(engine *gin.Engine) {
 	/**
 	 * Image Routes
 	 *
+	 * Middleware: ETag
+	 *
 	 * @GET /image/fonts
 	 * @GET /image/formats
 	 * @GET /image/{size}
 	 * @GET /image/{size}/{bgColor}
 	 * @GET /image/{size}/{bgColor}/{txtColor}
 	 */
-	imageRoutes := engine.Group("/image")
+	imageRoutes := engine.Group("/image", middlewares.ETag())
 	imageRoutes.GET("/fonts", controllers.GetFonts)
 	imageRoutes.GET("/formats", controllers.GetFormats)
 	imageRoutes.GET("/:size/", controllers.GetImage)

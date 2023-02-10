@@ -95,3 +95,21 @@ func TestGetEnvExisting(t *testing.T) {
 func TestGetEnvDefault(t *testing.T) {
 	assert.Equal(t, "DEFAULT", shared.GetEnv("TEST", "DEFAULT"))
 }
+
+func TestGenerateMD5Hash(t *testing.T) {
+	// word => hash
+	tests := map[string]string{
+		"password":                          "5f4dcc3b5aa765d61d8327deb882cf99",
+		"":                                  "d41d8cd98f00b204e9800998ecf8427e",
+		"example-123-9838-2910110":          "6ac00b045dc3b7ecfc14099cb06326d6",
+		"What is an MD5 hash?":              "7b96e636e4bd247fc6dfe3371a194766",
+		`\11\11`:                            "d013f250fc146dfc90b6401ff86b9727",
+		`https://www.md5hashgenerator.com/`: "df30cb178eb8e37728f39b3e6551c8de",
+		"👍":                                 "0215ac4dab1ecaf71d83f98af5726984",
+		"example":                           "1a79a4d60de6718e8e5b326e338ae533",
+	}
+
+	for word, hash := range tests {
+		assert.Equal(t, hash, shared.GenerateMD5Hash(word))
+	}
+}
