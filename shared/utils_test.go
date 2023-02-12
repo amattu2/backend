@@ -96,20 +96,21 @@ func TestGetEnvDefault(t *testing.T) {
 	assert.Equal(t, "DEFAULT", shared.GetEnv("TEST", "DEFAULT"))
 }
 
-func TestGenerateMD5Hash(t *testing.T) {
+func TestGenerateHash(t *testing.T) {
 	// word => hash
 	tests := map[string]string{
-		"password":                          "5f4dcc3b5aa765d61d8327deb882cf99",
-		"":                                  "d41d8cd98f00b204e9800998ecf8427e",
-		"example-123-9838-2910110":          "6ac00b045dc3b7ecfc14099cb06326d6",
-		"What is an MD5 hash?":              "7b96e636e4bd247fc6dfe3371a194766",
-		`\11\11`:                            "d013f250fc146dfc90b6401ff86b9727",
-		`https://www.md5hashgenerator.com/`: "df30cb178eb8e37728f39b3e6551c8de",
-		"👍":                                 "0215ac4dab1ecaf71d83f98af5726984",
-		"example":                           "1a79a4d60de6718e8e5b326e338ae533",
+		"password":                          "5baa61e4c9b93f3f0682250b6cf8331b7ee68fd8",
+		"":                                  "da39a3ee5e6b4b0d3255bfef95601890afd80709",
+		"example-123-9838-2910110":          "e1f634558c277e7abbfbce688013779cbdea7fdb",
+		"What is an MD5 hash?":              "7e5faa8267e0fdcecb267a53efeb6437240b4ac0",
+		`\11\11`:                            "f49fc131293990e9c17ea29e9d32ec7381b33663",
+		`https://www.md5hashgenerator.com/`: "169f6bd54cd4174b025371c6636f0cb78728a0e7",
+		"👍":                                 "78654ffdf2db3ef8dd605074250103f770177eb6",
+		"example":                           "c3499c2729730a7f807efb8676a92dcb6f8a3f8f",
+		"   ":                               "088fb1a4ab057f4fcf7d487006499060c7fe5773",
 	}
 
 	for word, hash := range tests {
-		assert.Equal(t, hash, shared.GenerateMD5Hash(word))
+		assert.Equal(t, hash, shared.GenerateHash(word))
 	}
 }

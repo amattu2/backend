@@ -48,7 +48,7 @@ func generateEtag(c *gin.Context) string {
 		str += v
 	}
 
-	return shared.GenerateMD5Hash(str)
+	return shared.GenerateHash(str)
 }
 
 func ETag() gin.HandlerFunc {

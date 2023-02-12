@@ -44,7 +44,7 @@ func TestEmptyETag(t *testing.T) {
 	middlewares.ETag()(context)
 
 	assert.Equal(t, http.StatusOK, recorder.Code)
-	assert.Equal(t, "W/\"d41d8cd98f00b204e9800998ecf8427e\"", recorder.Header().Get("ETag"))
+	assert.Equal(t, "W/\"da39a3ee5e6b4b0d3255bfef95601890afd80709\"", recorder.Header().Get("ETag"))
 }
 
 func TestPathETagGeneration(t *testing.T) {
@@ -52,14 +52,14 @@ func TestPathETagGeneration(t *testing.T) {
 
 	// hash => request params
 	tests := map[string][]gin.Param{
-		"afc41cc0c128a10393af797ca32362f7": {
+		"216ef3494d19b18b406008b212082526c237d3f1": {
 			{Key: "size", Value: "315x315"},
 		},
-		"dc3737b1340496be090dddbb54bf4e5f": {
+		"c46b8c07757883fe5cb527398fe4d31774f30a05": {
 			{Key: "size", Value: "400x400"},
 			{Key: "bgColor", Value: "3B3B3B"},
 		},
-		"83874226cca6452ed03d11e9a22db707": {
+		"cf079f569bef41abbfe8b343656607bd82a68684": {
 			{Key: "size", Value: "200x200"},
 			{Key: "bgColor", Value: "F2F2F2"},
 			{Key: "txtColor", Value: "3B3B3B"},
@@ -95,19 +95,19 @@ func TestQueryETagGeneration(t *testing.T) {
 	// hash => query string
 	tests := map[int]map[string]string{
 		0: {
-			"hash":  "172da84f59e1914dc7353d44c0dc22e1",
+			"hash":  "5dead348ca8321104b06f87fdcc6b9872781aed9",
 			"query": "?borderWidth=24&borderColor=3B3B3B",
 		},
 		1: {
-			"hash":  "172da84f59e1914dc7353d44c0dc22e1",
+			"hash":  "5dead348ca8321104b06f87fdcc6b9872781aed9",
 			"query": "?borderColor=3B3B3B&borderWidth=24",
 		},
 		2: {
-			"hash":  "b54101fbf8973b452d77a6faf07351fe",
+			"hash":  "c588cc537aa3c78e875bcc80baec5cfb88cddf60",
 			"query": "?text=Hello%2C%20World!&borderWidth=24&borderColor=3B3B3B",
 		},
 		3: {
-			"hash":  "a51abaa319322ffb23537ababc115b5f",
+			"hash":  "4d8c3c24a9ae9f84f89317c798150fe5b450ba75",
 			"query": "?font=Sans-Serif&format=bmp&text=Hello%2C%20World!&borderWidth=24&borderColor=3B3B3B",
 		},
 	}
