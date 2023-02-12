@@ -44,7 +44,7 @@ func TestEmptyETag(t *testing.T) {
 	middlewares.ETag()(context)
 
 	assert.Equal(t, http.StatusOK, recorder.Code)
-	assert.Equal(t, "W/\"da39a3ee5e6b4b0d3255bfef95601890afd80709\"", recorder.Header().Get("ETag"))
+	assert.Equal(t, "da39a3ee5e6b4b0d3255bfef95601890afd80709", recorder.Header().Get("ETag"))
 }
 
 func TestPathETagGeneration(t *testing.T) {
@@ -75,7 +75,7 @@ func TestPathETagGeneration(t *testing.T) {
 		middlewares.ETag()(context)
 
 		assert.Equal(t, http.StatusOK, recorder.Code)
-		assert.Equal(t, "W/\""+hash+"\"", recorder.Header().Get("ETag"))
+		assert.Equal(t, hash, recorder.Header().Get("ETag"))
 
 		// Test HTTP If-None-Match
 		recorder = httptest.NewRecorder()
@@ -120,7 +120,7 @@ func TestQueryETagGeneration(t *testing.T) {
 		middlewares.ETag()(context)
 
 		assert.Equal(t, http.StatusOK, recorder.Code)
-		assert.Equal(t, "W/\""+tst["hash"]+"\"", recorder.Header().Get("ETag"))
+		assert.Equal(t, tst["hash"], recorder.Header().Get("ETag"))
 
 		// Test HTTP If-None-Match
 		recorder = httptest.NewRecorder()

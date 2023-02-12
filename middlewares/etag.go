@@ -59,7 +59,7 @@ func ETag() gin.HandlerFunc {
 			c.AbortWithStatus(http.StatusNotModified)
 		}
 
-		c.Writer.Header().Set("ETag", "W/\""+etag+"\"")
+		c.Writer.Header().Set("ETag", etag)
 
 		c.Next()
 	}
