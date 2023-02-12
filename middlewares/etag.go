@@ -34,11 +34,11 @@ import (
 func generateEtag(c *gin.Context) string {
 	from := []string{
 		c.Param("size"),
+		c.Param("bgColor"),
+		c.Param("txtColor"),
 		c.Query("text"),
 		c.Query("borderWidth"),
 		c.Query("borderColor"),
-		c.Param("bgColor"),
-		c.Param("txtColor"),
 		c.Query("font"),
 		c.Query("format"),
 	}
