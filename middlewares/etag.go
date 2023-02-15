@@ -53,13 +53,13 @@ func generateEtag(c *gin.Context) string {
 
 func ETag() gin.HandlerFunc {
 	return func(c *gin.Context) {
-		var etag = generateEtag(c)
+		var sum = generateEtag(c)
 
-		if c.Request.Header.Get("If-None-Match") == etag {
+		if c.Request.Header.Get("If-None-Match") == sum {
 			c.AbortWithStatus(http.StatusNotModified)
 		}
 
-		c.Writer.Header().Set("ETag", etag)
+		c.Writer.Header().Set("ETag", sum)
 
 		c.Next()
 	}

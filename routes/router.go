@@ -58,10 +58,11 @@ func InitRouter(engine *gin.Engine) {
 	 * @GET /image/{size}/{bgColor}
 	 * @GET /image/{size}/{bgColor}/{txtColor}
 	 */
-	imageRoutes := engine.Group("/image", middlewares.ETag())
+	imageRoutes := engine.Group("/image")
 	imageRoutes.GET("/fonts", controllers.GetFonts)
 	imageRoutes.GET("/formats", controllers.GetFormats)
-	imageRoutes.GET("/:size/", controllers.GetImage)
-	imageRoutes.GET("/:size/:bgColor", controllers.GetImage)
-	imageRoutes.GET("/:size/:bgColor/:txtColor", controllers.GetImage)
+	imageGenRoutes := imageRoutes.Group("/:size", middlewares.ETag())
+	imageGenRoutes.GET("/", controllers.GetImage)
+	imageGenRoutes.GET(":bgColor", controllers.GetImage)
+	imageGenRoutes.GET(":bgColor/:txtColor", controllers.GetImage)
 }
