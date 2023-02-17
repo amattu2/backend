@@ -4,7 +4,7 @@ go 1.19
 
 require github.com/gin-gonic/gin v1.8.2
 
-require golang.org/x/image v0.3.0
+require golang.org/x/image v0.5.0
 
 require (
 	github.com/JGLTechnologies/gin-rate-limit v1.5.2
