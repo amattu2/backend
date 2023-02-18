@@ -19,11 +19,12 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package middlewares
+package middlewares_test
 
 import (
 	"net/http"
 	"net/http/httptest"
+	"placeholder-app/backend/middlewares"
 	"testing"
 
 	"github.com/gin-gonic/gin"
@@ -38,7 +39,7 @@ func TestCorsHeadMethod(t *testing.T) {
 
 	c.Request = httptest.NewRequest("HEAD", "/", nil)
 
-	Cors()(c)
+	middlewares.Cors()(c)
 
 	assert.Equal(t, http.StatusOK, w.Code)
 	assert.Equal(t, "*", w.Header().Get("Access-Control-Allow-Origin"))
@@ -53,7 +54,7 @@ func TestCorsOptionsMethod(t *testing.T) {
 
 	c.Request = httptest.NewRequest("OPTIONS", "/", nil)
 
-	Cors()(c)
+	middlewares.Cors()(c)
 
 	assert.Equal(t, http.StatusNoContent, w.Code)
 	assert.Equal(t, "*", w.Header().Get("Access-Control-Allow-Origin"))
@@ -68,7 +69,7 @@ func TestCorsGetMethod(t *testing.T) {
 
 	c.Request = httptest.NewRequest("GET", "/", nil)
 
-	Cors()(c)
+	middlewares.Cors()(c)
 
 	assert.Equal(t, http.StatusOK, w.Code)
 	assert.Equal(t, "*", w.Header().Get("Access-Control-Allow-Origin"))
@@ -83,7 +84,7 @@ func TestCorsPostMethod(t *testing.T) {
 
 	c.Request = httptest.NewRequest("POST", "/", nil)
 
-	Cors()(c)
+	middlewares.Cors()(c)
 
 	assert.Equal(t, http.StatusMethodNotAllowed, w.Code)
 }
@@ -96,7 +97,7 @@ func TestCorsDeleteMethod(t *testing.T) {
 
 	c.Request = httptest.NewRequest("DELETE", "/", nil)
 
-	Cors()(c)
+	middlewares.Cors()(c)
 
 	assert.Equal(t, http.StatusMethodNotAllowed, w.Code)
 }
@@ -109,7 +110,7 @@ func TestCorsPutMethod(t *testing.T) {
 
 	c.Request = httptest.NewRequest("PUT", "/", nil)
 
-	Cors()(c)
+	middlewares.Cors()(c)
 
 	assert.Equal(t, http.StatusMethodNotAllowed, w.Code)
 }
@@ -122,7 +123,7 @@ func TestCorsPatchMethod(t *testing.T) {
 
 	c.Request = httptest.NewRequest("PATCH", "/", nil)
 
-	Cors()(c)
+	middlewares.Cors()(c)
 
 	assert.Equal(t, http.StatusMethodNotAllowed, w.Code)
 }

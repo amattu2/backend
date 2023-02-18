@@ -1,8 +1,8 @@
 /*
- * Produced: Thu Jan 26 2023
- * Author: Alec M., James A.
- * GitHub: https://github.com/placeholder-app
- * Copyright: (C) 2023 Alec M., James A.
+ * Produced: Wed Feb 08 2023
+ * Author: Alec M.
+ * GitHub: https://amattu.com/links/github
+ * Copyright: (C) 2023 Alec M.
  * License: License GNU Affero General Public License v3.0
  *
  * This program is free software: you can redistribute it and/or modify
@@ -23,28 +23,43 @@ package middlewares
 
 import (
 	"net/http"
+	"placeholder-app/backend/shared"
 
 	"github.com/gin-gonic/gin"
 )
 
-func Cors() gin.HandlerFunc {
-	return func(c *gin.Context) {
-		c.Writer.Header().Set("Access-Control-Allow-Origin", "*")
-		c.Writer.Header().Set("Access-Control-Allow-Headers", "Accept-Encoding, accept, Content-Type, Content-Length, Cache-Control, Etag, origin, X-Requested-With")
-		c.Writer.Header().Set("Access-Control-Allow-Methods", "HEAD, OPTIONS, GET")
+// GenerateEtag generates an ETag based on the query string
+//
+// c: gin context to generate ETag from
+func generateEtag(c *gin.Context) string {
+	from := []string{
+		c.Param("size"),
+		c.Param("bgColor"),
+		c.Param("txtColor"),
+		c.Query("text"),
+		c.Query("borderWidth"),
+		c.Query("borderColor"),
+		c.Query("font"),
+		c.Query("format"),
+	}
+	str := ""
 
-		if c.Request.Method == "OPTIONS" {
-			c.AbortWithStatus(http.StatusNoContent)
-			return
+	for _, v := range from {
+		str += v
+	}
+
+	return shared.GenerateHash(str)
+}
+
+func ETag() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		var sum = generateEtag(c)
+
+		if c.Request.Header.Get("If-None-Match") == sum {
+			c.AbortWithStatus(http.StatusNotModified)
 		}
-		if c.Request.Method == "HEAD" {
-			c.AbortWithStatus(http.StatusOK)
-			return
-		}
-		if c.Request.Method != "GET" {
-			c.AbortWithStatus(http.StatusMethodNotAllowed)
-			return
-		}
+
+		c.Writer.Header().Set("ETag", sum)
 
 		c.Next()
 	}

@@ -19,12 +19,13 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package controllers
+package controllers_test
 
 import (
 	"encoding/json"
 	"net/http"
 	"net/http/httptest"
+	"placeholder-app/backend/controllers"
 	"strings"
 	"testing"
 
@@ -38,7 +39,7 @@ func TestUtilityController(t *testing.T) {
 	recorder := httptest.NewRecorder()
 	context, _ := gin.CreateTestContext(recorder)
 
-	GetStatus(context)
+	controllers.GetStatus(context)
 
 	assert.Equal(t, http.StatusOK, recorder.Code)
 	assert.Equal(t, "application/json; charset=utf-8", recorder.Header().Get("Content-Type"))

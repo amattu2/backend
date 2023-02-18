@@ -98,7 +98,7 @@
     "method": "GET",
     "sortNum": 10000,
     "created": "2023-01-26T17:53:36.396Z",
-    "modified": "2023-02-08T23:23:18.634Z",
+    "modified": "2023-02-09T13:39:50.673Z",
     "headers": [],
     "params": [
       {
@@ -183,6 +183,12 @@
         "custom": "x-rate-limit-remaining",
         "action": ">=",
         "value": "0"
+      },
+      {
+        "type": "custom-header",
+        "custom": "ETag",
+        "action": "istype",
+        "value": "string"
       }
     ]
   },
@@ -195,7 +201,7 @@
     "method": "GET",
     "sortNum": 10000,
     "created": "2023-01-27T01:03:22.554Z",
-    "modified": "2023-02-08T23:23:25.725Z",
+    "modified": "2023-02-15T13:44:42.205Z",
     "headers": [],
     "params": [
       {
@@ -265,6 +271,12 @@
         "custom": "x-rate-limit-remaining",
         "action": ">=",
         "value": "0"
+      },
+      {
+        "type": "custom-header",
+        "custom": "etag",
+        "action": "equal",
+        "value": "54ee307fe133c0a4dd4ad03e080c7023fdd68d31"
       }
     ]
   },
@@ -277,7 +289,7 @@
     "method": "GET",
     "sortNum": 12500,
     "created": "2023-01-27T01:04:03.315Z",
-    "modified": "2023-01-27T13:05:02.710Z",
+    "modified": "2023-02-15T13:45:02.548Z",
     "headers": [],
     "params": [
       {
@@ -309,6 +321,12 @@
         "custom": "x-rate-limit-remaining",
         "action": ">=",
         "value": "0"
+      },
+      {
+        "type": "custom-header",
+        "custom": "etag",
+        "action": "equal",
+        "value": "d7f1a7ceea5f35bc7eb41bb527ecbc9675c69244"
       }
     ]
   },
@@ -321,7 +339,7 @@
     "method": "GET",
     "sortNum": 15000,
     "created": "2023-01-27T13:04:57.941Z",
-    "modified": "2023-02-08T23:23:32.797Z",
+    "modified": "2023-02-15T13:45:38.556Z",
     "headers": [],
     "params": [
       {
@@ -376,6 +394,12 @@
         "custom": "x-rate-limit-remaining",
         "action": ">=",
         "value": "0"
+      },
+      {
+        "type": "custom-header",
+        "custom": "etag",
+        "action": "equal",
+        "value": "95493d77df654e19f4a57c4c056ddaebbf87c25d"
       }
     ]
   },

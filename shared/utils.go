@@ -22,6 +22,8 @@
 package shared
 
 import (
+	"crypto/sha1"
+	"encoding/hex"
 	"os"
 	"strconv"
 	"strings"
@@ -77,4 +79,17 @@ func GetEnv(key string, fallback string) string {
 	}
 
 	return fallback
+}
+
+// GenerateHash generates an sha1 hash of a string
+//
+// str: string to hash
+//
+// Example: GenerateHash("example") = "c3499c2729730a7f807efb8676a92dcb6f8a3f8f"
+//
+// Note: This is not designed to be cryptographically secure
+func GenerateHash(str string) string {
+	hash := sha1.Sum([]byte(str))
+
+	return hex.EncodeToString(hash[:])
 }
