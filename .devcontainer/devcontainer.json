@@ -1,0 +1,16 @@
+{
+  "image": "mcr.microsoft.com/devcontainers/universal:2",
+  "features": {
+    "ghcr.io/devcontainers/features/go:1": {}
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "golang.go",
+        "rangav.vscode-thunder-client",
+        "42crunch.vscode-openapi"
+      ]
+    }
+  },
+  "forwardPorts": [8080]    
+}
