@@ -17,8 +17,8 @@ jobs:
     if: ${{ github.repository_owner == 'placeholder-app' }}
     strategy:
       matrix:
-        go-version: [1.17.x, 1.18.x, 1.19.x, 1.20.x]
-        os: [ubuntu-latest, macos-latest, windows-latest]
+        go-version: [1.19.x, 1.20.x, 1.21.x, 1.22.x, 1.23.x]
+        os: [ubuntu-latest, windows-latest]
     runs-on: ${{ matrix.os }}
     steps:
       # Clone repository
