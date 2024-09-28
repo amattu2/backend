@@ -141,7 +141,7 @@ You can simulate requests to the API, or run HTTP-based testing.
 
 # Requirements & Dependencies
 
-- Go 1.19
+- Go 1.19 (Minimum)
 - [gin-gonic/gin](github.com/gin-gonic/gin)
 - openapi-generator-cli (For documentation only)
 
